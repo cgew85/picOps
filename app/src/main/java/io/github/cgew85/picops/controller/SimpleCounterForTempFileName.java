@@ -1,14 +1,14 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 /**
- * The Class simpleCounterForTempFileName.
+ * The Class SimpleCounterForTempFileName.
  */
-public class simpleCounterForTempFileName {
+public class SimpleCounterForTempFileName {
 
     /**
      * The instance.
      */
-    private static simpleCounterForTempFileName instance = null;
+    private static SimpleCounterForTempFileName instance = null;
 
     /**
      * The counter.
@@ -30,23 +30,23 @@ public class simpleCounterForTempFileName {
      * @param counter the new counter
      */
     public static void setCounter(int counter) {
-        simpleCounterForTempFileName.counter = counter;
+        SimpleCounterForTempFileName.counter = counter;
     }
 
     /**
      * Instantiates a new simple counter for temp file name.
      */
-    private simpleCounterForTempFileName() {
+    private SimpleCounterForTempFileName() {
     }
 
     /**
-     * Gets the single instance of simpleCounterForTempFileName.
+     * Gets the single instance of SimpleCounterForTempFileName.
      *
-     * @return single instance of simpleCounterForTempFileName
+     * @return single instance of SimpleCounterForTempFileName
      */
-    public static simpleCounterForTempFileName getInstance() {
+    public static SimpleCounterForTempFileName getInstance() {
         if (instance == null)
-            instance = new simpleCounterForTempFileName();
+            instance = new SimpleCounterForTempFileName();
 
         return instance;
     }

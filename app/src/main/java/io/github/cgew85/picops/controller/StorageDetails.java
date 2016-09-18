@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.os.Environment;
 import android.os.StatFs;
@@ -20,12 +20,12 @@ import java.io.File;
  * R�ckgaben.
  */
 
-public class storageDetails {
+public class StorageDetails {
 
     /**
      * Instantiates a new storage details.
      */
-    public storageDetails() {
+    public StorageDetails() {
     }
 
 

@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Grenzklassen;
+package io.github.cgew85.picops.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -25,7 +25,7 @@ public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
         imgWidth = Integer.parseInt(params[1]);
         imgHeight = Integer.parseInt(params[2]);
 
-        return scaleImage.decodeSampledBitmapFromResource(data, imgWidth, imgHeight);
+        return ScaleImage.decodeSampledBitmapFromResource(data, imgWidth, imgHeight);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +21,9 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
-import io.github.cgew85.picops.Anwendungsklassen.*;
-import io.github.cgew85.picops.Grenzklassen.Session;
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.*;
+import io.github.cgew85.picops.model.Session;
 
 public class BearbeitungsActivity extends FragmentActivity {
     DrawerLayout mDrawerLayout;
@@ -121,14 +122,14 @@ public class BearbeitungsActivity extends FragmentActivity {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
             Toast.makeText(BearbeitungsActivity.this, "Undo Button Pressed", Toast.LENGTH_LONG).show();
-            simpleCounterForTempFileName counter = simpleCounterForTempFileName.getInstance();
+            SimpleCounterForTempFileName counter = SimpleCounterForTempFileName.getInstance();
             Log.d("INFO", "Undo button pressed, counter @ " + counter.getCounter());
             Log.d("INFO", "Starting undo process");
-            undoLastStep undo = new undoLastStep();
+            UndoLastStep undo = new UndoLastStep();
             undo.undo(counter.getCounter(), getApplicationContext());
 
             /** Letztes Element aus der Liste loeschen **/
-            logEntryListManager manager = logEntryListManager.getInstance();
+            LogEntryListManager manager = LogEntryListManager.getInstance();
             Log.d("INFO", "Anzahl Objekte in List: " + manager.getNumberOfEntries());
             if (manager.getNumberOfEntries() > 0) {
                 manager.removeLastEntry();
@@ -148,11 +149,11 @@ public class BearbeitungsActivity extends FragmentActivity {
             iv.setImageBitmap(null);
 
             Toast.makeText(BearbeitungsActivity.this, "Save Button Pressed", Toast.LENGTH_LONG).show();
-            saveImageToSD save = new saveImageToSD();
+            SaveImageToSD save = new SaveImageToSD();
             /** Session holen **/
-            readWriteSettings rwSetting = readWriteSettings.getRWSettings();
+            ReadWriteSettings rwSetting = ReadWriteSettings.getRWSettings();
 
-            logEntryListManager manager = logEntryListManager.getInstance();
+            LogEntryListManager manager = LogEntryListManager.getInstance();
             if (manager.getNumberOfEntries() > 0) {
                 save.applyStepToPicture(Integer.parseInt(rwSetting.getStringSetting(context, "Session")), context);
             }
@@ -163,7 +164,7 @@ public class BearbeitungsActivity extends FragmentActivity {
             manager.clearList();
             Log.d("INFO", "### LogList cleared ###");
             /** Neue Session erzeugen **/
-            rwSetting = readWriteSettings.getRWSettings();
+            rwSetting = ReadWriteSettings.getRWSettings();
             rwSetting.changeSetting(context, "Session", String.valueOf(session.createNewSessionID()));
             Log.d("INFO", "Session now: " + session.getSessionID());
             Log.d("INFO", "Session now(SP): " + rwSetting.getStringSetting(context, "Session"));
@@ -203,7 +204,7 @@ public class BearbeitungsActivity extends FragmentActivity {
 
         System.gc();
         Log.d("INFO", "Back pressed in FragmentActivity");
-        cleanStartUp csu = new cleanStartUp();
+        CleanStartUp csu = new CleanStartUp();
         csu.cleanUpOnStart();
 
         Intent intent = new Intent(this, AuswahlActivity.class);

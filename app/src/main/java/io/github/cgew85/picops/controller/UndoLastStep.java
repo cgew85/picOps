@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.content.Context;
 import android.os.Environment;
@@ -6,12 +6,12 @@ import android.util.Log;
 
 import java.io.File;
 
-public class undoLastStep {
-    public undoLastStep() {
+public class UndoLastStep {
+    public UndoLastStep() {
     }
 
-    private readWriteSettings rwSettings = readWriteSettings.getRWSettings();
-    private simpleCounterForTempFileName simpleCounter = simpleCounterForTempFileName.getInstance();
+    private ReadWriteSettings rwSettings = ReadWriteSettings.getRWSettings();
+    private SimpleCounterForTempFileName simpleCounter = SimpleCounterForTempFileName.getInstance();
 
     public boolean undo(int counter, Context context) {
         boolean success = false;

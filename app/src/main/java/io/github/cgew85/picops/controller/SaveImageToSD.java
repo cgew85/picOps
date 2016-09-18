@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.os.Environment;
 import android.util.Log;
-import io.github.cgew85.picops.Grenzklassen.logEntry;
+import io.github.cgew85.picops.model.LogEntry;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -17,9 +17,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * The Class saveImageToSD.
+ * The Class SaveImageToSD.
  */
-public class saveImageToSD {
+public class SaveImageToSD {
 
     /**
      * The bitmap.
@@ -36,7 +36,7 @@ public class saveImageToSD {
     /**
      * Instantiates a new save image to sd.
      */
-    public saveImageToSD() {
+    public SaveImageToSD() {
     }
 
     /**
@@ -69,9 +69,9 @@ public class saveImageToSD {
         file.renameTo(outputFile);
 
         /** Filter/Effekte anwenden **/
-        logEntryListManager manager = logEntryListManager.getInstance();
-        List<logEntry> list = manager.getList();
-        Iterator<logEntry> iterator = list.iterator();
+        LogEntryListManager manager = LogEntryListManager.getInstance();
+        List<LogEntry> list = manager.getList();
+        Iterator<LogEntry> iterator = list.iterator();
         while (iterator.hasNext()) {
             applyFiltersEffects(outputFile, iterator.next(), context, sessionID, inSampleSize);
         }
@@ -86,7 +86,7 @@ public class saveImageToSD {
      * @param sessionID    the session id
      * @param inSampleSize the in sample size
      */
-    private synchronized void applyFiltersEffects(final File file, logEntry entry, Context context, final int sessionID, final int inSampleSize) {
+    private synchronized void applyFiltersEffects(final File file, LogEntry entry, Context context, final int sessionID, final int inSampleSize) {
         /** Zun�chst Auswertung welcher Filter/Effekt angewendet werden muss **/
         Log.d("INFO", "In applyFiltersEffects - inSampleSize: " + inSampleSize);
         String tempName = entry.getName();
@@ -121,7 +121,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.imageSharpening(inBitmap, 20, 20));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.imageSharpening(inBitmap, 20, 20));
 
                     try {
                         inStream.close();
@@ -129,7 +129,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -196,7 +196,7 @@ public class saveImageToSD {
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
                     Log.d("INFO", "in gaussianBlur -> alte Dimensionen: " + inBitmap.getWidth() + " / " + inBitmap.getHeight());
                     Log.d("INFO", "in gaussianBlur -> neue Dimensionen: " + inBitmap.getWidth() + " / " + inBitmap.getHeight());
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.gaussianBlurForOutput(inBitmap, origWidth, origHeight, inBitmap.getWidth(), inBitmap.getHeight(), 3));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.gaussianBlurForOutput(inBitmap, origWidth, origHeight, inBitmap.getWidth(), inBitmap.getHeight(), 3));
 
                     try {
                         inStream.close();
@@ -204,7 +204,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -261,7 +261,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.doGreyscale(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doGreyscale(inBitmap));
 
                     try {
                         inStream.close();
@@ -269,7 +269,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -332,7 +332,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.verstaerkenFarbtyp(inBitmap, typeValue, percentValue));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.verstaerkenFarbtyp(inBitmap, typeValue, percentValue));
 
                     try {
                         inStream.close();
@@ -340,7 +340,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -408,7 +408,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.glaettenFuerExport(inBitmap, glaettungsMaske, fragmentWidth, fragmentHeight, inBitmap.getWidth(), inBitmap.getHeight()));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.glaettenFuerExport(inBitmap, glaettungsMaske, fragmentWidth, fragmentHeight, inBitmap.getWidth(), inBitmap.getHeight()));
 
                     try {
                         inStream.close();
@@ -416,7 +416,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -472,7 +472,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.scharfzeichnen(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.scharfzeichnen(inBitmap));
 
                     try {
                         inStream.close();
@@ -480,7 +480,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -540,7 +540,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.createContrast(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.createContrast(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -548,7 +548,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -608,7 +608,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.createContrastSW(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.createContrastSW(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -616,7 +616,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -683,7 +683,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.doGamma(inBitmap, red, green, blue));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doGamma(inBitmap, red, green, blue));
 
                     try {
                         inStream.close();
@@ -691,7 +691,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -751,7 +751,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.decreaseColorDepth(inBitmap, bitOffset));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.decreaseColorDepth(inBitmap, bitOffset));
 
                     try {
                         inStream.close();
@@ -759,7 +759,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -819,7 +819,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.doBrightness(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doBrightness(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -827,7 +827,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -894,7 +894,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.doColorFilter(inBitmap, red, green, blue));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doColorFilter(inBitmap, red, green, blue));
 
                     try {
                         inStream.close();
@@ -902,7 +902,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -959,7 +959,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.bildSpiegelungVertikal((inBitmap)));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.bildSpiegelungVertikal((inBitmap)));
 
                     try {
                         inStream.close();
@@ -967,7 +967,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1023,7 +1023,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.rundeEcken(inBitmap, 90f));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.rundeEcken(inBitmap, 90f));
 
                     try {
                         inStream.close();
@@ -1031,7 +1031,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1091,7 +1091,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.bildSpiegelung(inBitmap, valueSpiegelung));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.bildSpiegelung(inBitmap, valueSpiegelung));
 
                     try {
                         inStream.close();
@@ -1099,7 +1099,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1159,7 +1159,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.createSepiaToningEffect(inBitmap, depthValue));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.createSepiaToningEffect(inBitmap, depthValue));
 
                     try {
                         inStream.close();
@@ -1167,7 +1167,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1227,7 +1227,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.rotateImage(inBitmap, degree));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.rotateImage(inBitmap, degree));
 
                     try {
                         inStream.close();
@@ -1235,7 +1235,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1295,7 +1295,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.boxBlur(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.boxBlur(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -1303,7 +1303,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1359,7 +1359,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.hardLightMode(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.hardLightMode(inBitmap));
 
                     try {
                         inStream.close();
@@ -1367,7 +1367,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1423,7 +1423,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.binaryImage(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.binaryImage(inBitmap));
 
                     try {
                         inStream.close();
@@ -1431,7 +1431,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1487,7 +1487,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.alphaBlending(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.alphaBlending(inBitmap));
 
                     try {
                         inStream.close();
@@ -1495,7 +1495,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1551,7 +1551,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.histogrammAusgleich(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.histogrammAusgleich(inBitmap));
 
                     try {
                         inStream.close();
@@ -1559,7 +1559,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1619,7 +1619,7 @@ public class saveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(doFilter.addBorder(inBitmap, valueBorder));
+                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.addBorder(inBitmap, valueBorder));
 
                     try {
                         inStream.close();
@@ -1627,7 +1627,7 @@ public class saveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(doFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;

@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Grenzklassen;
+package io.github.cgew85.picops.model;
 
 /**
  * The Class imageDetails

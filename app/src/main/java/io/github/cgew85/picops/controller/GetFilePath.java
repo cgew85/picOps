@@ -1,20 +1,20 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
 
-public class getFilePath {
+public class GetFilePath {
     // Singleton Design
-    private static getFilePath instance = null;
+    private static GetFilePath instance = null;
 
-    private getFilePath() {
+    private GetFilePath() {
     }
 
-    public static getFilePath getInstance() {
+    public static GetFilePath getInstance() {
         if (instance == null)
-            instance = new getFilePath();
+            instance = new GetFilePath();
 
         return instance;
     }
@@ -35,7 +35,7 @@ public class getFilePath {
                 if (tmpArray.length > 0) {
                     // Browsing the array for the filename we are looking for
                     for (int i = 0; i < tmpArray.length; i++) {
-                        if (tmpArray[i].equals(readWriteSettings.getRWSettings().getStringSetting(context, "Session") + ".JPEG")) {
+                        if (tmpArray[i].equals(ReadWriteSettings.getRWSettings().getStringSetting(context, "Session") + ".JPEG")) {
                             // Create a file object in order to get the absolute path
                             file = new File(directory.getAbsolutePath().concat("/").concat(tmpArray[i]));
                             // Another security check
@@ -66,7 +66,7 @@ public class getFilePath {
             if (tmpArray.length > 0 && !tmpArray.equals(null)) {
                 // Browsing the array for the filename we are looking for
                 for (int i = 0; i < tmpArray.length; i++) {
-                    if (tmpArray[i].equals(readWriteSettings.getRWSettings().getStringSetting(context, "Session") + "-" + counter + ".JPEG")) {
+                    if (tmpArray[i].equals(ReadWriteSettings.getRWSettings().getStringSetting(context, "Session") + "-" + counter + ".JPEG")) {
                         // Create a file object in order to get the absolute path
                         file = new File(directory.getAbsolutePath().concat("/").concat(tmpArray[i]));
                         // Another security check

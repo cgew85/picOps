@@ -1,14 +1,14 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * The Class readWriteSettings
+ * The Class ReadWriteSettings
  * <p>
  * Anlegen oder Ab�ndern appinterner Einstellungen.
  */
-public class readWriteSettings {
+public class ReadWriteSettings {
     /**
      * The Constant SETTINGS.
      */
@@ -27,12 +27,12 @@ public class readWriteSettings {
     /**
      * The rw settings.
      */
-    private static readWriteSettings rwSettings = null;
+    private static ReadWriteSettings rwSettings = null;
 
     /**
      * Instantiates a new read write settings.
      */
-    private readWriteSettings() {
+    private ReadWriteSettings() {
     }
 
     /**
@@ -40,9 +40,9 @@ public class readWriteSettings {
      *
      * @return the rW settings
      */
-    public static synchronized readWriteSettings getRWSettings() {
+    public static synchronized ReadWriteSettings getRWSettings() {
         if (rwSettings == null) {
-            rwSettings = new readWriteSettings();
+            rwSettings = new ReadWriteSettings();
         }
 
         return rwSettings;

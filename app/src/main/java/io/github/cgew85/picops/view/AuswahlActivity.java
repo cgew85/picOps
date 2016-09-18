@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -16,9 +16,10 @@ import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
-import io.github.cgew85.picops.Anwendungsklassen.*;
-import io.github.cgew85.picops.Grenzklassen.Device;
-import io.github.cgew85.picops.Grenzklassen.ImageDetails;
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.*;
+import io.github.cgew85.picops.model.Device;
+import io.github.cgew85.picops.model.ImageDetails;
 
 import java.io.*;
 
@@ -83,7 +84,7 @@ public class AuswahlActivity extends Activity {
     /**
      * The read write settings.
      */
-    readWriteSettings settings = readWriteSettings.getRWSettings();
+    ReadWriteSettings settings = ReadWriteSettings.getRWSettings();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +118,7 @@ public class AuswahlActivity extends Activity {
 
                 Intent i = new Intent(v.getContext(), BearbeitungsActivity.class);
                 v.getContext().startActivity(i);
-                simpleCounterForTempFileName counter = simpleCounterForTempFileName.getInstance();
+                SimpleCounterForTempFileName counter = SimpleCounterForTempFileName.getInstance();
                 counter.setCounter(0);
             }
         });
@@ -191,7 +192,7 @@ public class AuswahlActivity extends Activity {
      * Start camera.
      */
     private void startCamera() {
-        File file = new File(Environment.getExternalStorageDirectory() + "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(this, "Session") + ".JPEG");
+        File file = new File(Environment.getExternalStorageDirectory() + "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(this, "Session") + ".JPEG");
         outputFileUri = Uri.fromFile(file);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
@@ -216,8 +217,8 @@ public class AuswahlActivity extends Activity {
         if (requestCode == IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 smallImagePreview = (ImageView) findViewById(R.id.smallImagePreview);
-                scaleImageFromCamInput(getFilePath.getInstance().returnAbsoluteFilePath(this));
-                String[] params = {getFilePath.getInstance().returnAbsoluteFilePath(this), String.valueOf(smallImagePreview.getWidth()), String.valueOf(smallImagePreview.getHeight())};
+                scaleImageFromCamInput(GetFilePath.getInstance().returnAbsoluteFilePath(this));
+                String[] params = {GetFilePath.getInstance().returnAbsoluteFilePath(this), String.valueOf(smallImagePreview.getWidth()), String.valueOf(smallImagePreview.getHeight())};
                 loadBitmap(params, smallImagePreview);
                 bmpLoaded = true;
             } else {
@@ -243,10 +244,10 @@ public class AuswahlActivity extends Activity {
                 File directoryOnExternalDevice = new File(directory + "/picOps/");
                 directoryOnExternalDevice.mkdirs();
                 OutputStream fos = null;
-                File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(this, "Session") + ".JPEG");
+                File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(this, "Session") + ".JPEG");
 
                 /** Einsetzen der Skalierung bei zu gro�en Bitmaps**/
-                checkImageForScaling mCheckImageForScaling = new checkImageForScaling();
+                CheckImageForScaling mCheckImageForScaling = new CheckImageForScaling();
                 Bitmap bmp = mCheckImageForScaling.checkImageSizeAndScale(picturePath);
 
                 try {
@@ -274,7 +275,7 @@ public class AuswahlActivity extends Activity {
 
                 /** ImagePreview anlegen und f�llen **/
                 smallImagePreview = (ImageView) findViewById(R.id.smallImagePreview);
-                String[] params = {getFilePath.getInstance().returnAbsoluteFilePath(this), String.valueOf(smallImagePreview.getWidth()), String.valueOf(smallImagePreview.getHeight())};
+                String[] params = {GetFilePath.getInstance().returnAbsoluteFilePath(this), String.valueOf(smallImagePreview.getWidth()), String.valueOf(smallImagePreview.getHeight())};
                 loadBitmap(params, smallImagePreview);
             }
         }
@@ -323,7 +324,7 @@ public class AuswahlActivity extends Activity {
     }
 
     private static void scaleImageFromCamInput(String filepath) {
-        checkImageForScaling mCheckImageForScaling = new checkImageForScaling();
+        CheckImageForScaling mCheckImageForScaling = new CheckImageForScaling();
         Bitmap localBitmap = mCheckImageForScaling.checkImageSizeAndScale(filepath);
         File file = new File(filepath);
         file.delete();

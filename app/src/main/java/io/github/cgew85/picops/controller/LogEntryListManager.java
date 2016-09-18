@@ -1,27 +1,27 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.util.Log;
-import io.github.cgew85.picops.Grenzklassen.logEntry;
+import io.github.cgew85.picops.model.LogEntry;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class logEntryListManager {
-    private static logEntryListManager instance = null;
-    private static List<logEntry> logEntryList = new ArrayList<logEntry>();
+public class LogEntryListManager {
+    private static LogEntryListManager instance = null;
+    private static List<LogEntry> logEntryList = new ArrayList<LogEntry>();
 
-    private logEntryListManager() {
+    private LogEntryListManager() {
     }
 
-    public static logEntryListManager getInstance() {
+    public static LogEntryListManager getInstance() {
         if (instance == null) {
-            instance = new logEntryListManager();
+            instance = new LogEntryListManager();
         }
 
         return instance;
     }
 
-    public void addLogEntry(logEntry entry) {
+    public void addLogEntry(LogEntry entry) {
         logEntryList.add(entry);
         Log.d("INFO", "Objekt eingefuegt");
     }
@@ -40,7 +40,7 @@ public class logEntryListManager {
         Log.d("INFO", "Objektliste geleert");
     }
 
-    public List<logEntry> getList() {
+    public List<LogEntry> getList() {
         return logEntryList;
     }
 }

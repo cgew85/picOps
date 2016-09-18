@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.app.TabActivity;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
+import io.github.cgew85.picops.R;
 
 public class FilterEffectsTabActivity extends TabActivity {
     private static final String FILTER_SPEC = "filter";

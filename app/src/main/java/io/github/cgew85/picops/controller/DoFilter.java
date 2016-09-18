@@ -28,22 +28,22 @@
  * 		23 filters/effects @ 18.9.2013
  * 
  */
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.graphics.*;
 import android.graphics.Bitmap.Config;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.Shader.TileMode;
 import android.util.Log;
-import io.github.cgew85.picops.Grenzklassen.Faltungsmaske;
-import io.github.cgew85.picops.Grenzklassen.PascalschesDreieck;
+import io.github.cgew85.picops.model.Faltungsmaske;
+import io.github.cgew85.picops.model.PascalschesDreieck;
 
 import java.util.ArrayList;
 
 /**
- * The Class doFilter.
+ * The Class DoFilter.
  */
-public class doFilter {
+public class DoFilter {
 
     /**
      * The Constant FLIP_VERTICAL. -> F�r Spiegelung
@@ -78,7 +78,7 @@ public class doFilter {
     /**
      * Instantiates a new do filter.
      */
-    public doFilter() {
+    public DoFilter() {
     }
 
     public static ArrayList<String> getAllFilterNames() {
@@ -216,8 +216,8 @@ public class doFilter {
 
         Log.d("INFO", "@blend2images -> Pre-resize: bitmap1 ( " + bitmapIn1.getWidth() + " / " + bitmapIn1.getHeight() + " )");
         Log.d("INFO", "@blend2images -> Pre-resize: bitmap2 ( " + bitmapIn2.getWidth() + " / " + bitmapIn2.getHeight() + " )");
-        bitmapIn1 = scaleImage.getResizedBitmap(bitmapIn1, outputHeight, outputWidth);
-        bitmapIn2 = scaleImage.getResizedBitmap(bitmapIn2, outputHeight, outputWidth);
+        bitmapIn1 = ScaleImage.getResizedBitmap(bitmapIn1, outputHeight, outputWidth);
+        bitmapIn2 = ScaleImage.getResizedBitmap(bitmapIn2, outputHeight, outputWidth);
         Log.d("INFO", "@blend2images -> resize: bitmap1 ( " + bitmapIn1.getWidth() + " / " + bitmapIn1.getHeight() + " )");
         Log.d("INFO", "@blend2images -> resize: bitmap2 ( " + bitmapIn2.getWidth() + " / " + bitmapIn2.getHeight() + " )");
 
@@ -402,7 +402,7 @@ public class doFilter {
         int pixel;
         Bitmap bitmapAlpha = Bitmap.createBitmap(width, height, bitmapIn.getConfig());
 
-        bitmapAlpha = doFilter.doGreyscale(bitmapIn);
+        bitmapAlpha = DoFilter.doGreyscale(bitmapIn);
 
         /** Alpha halbieren des Graustufenbildes **/
         for (int x = 0; x < width; x++) {
@@ -567,7 +567,7 @@ public class doFilter {
         double grey;
         Color color = new Color();
 
-        bitmapOut = doFilter.doGreyscale(bitmapIn);
+        bitmapOut = DoFilter.doGreyscale(bitmapIn);
         for (int x = 0; x < bitmapOut.getWidth(); x++) {
             for (int y = 0; y < bitmapIn.getHeight(); y++) {
                 pixel = bitmapIn.getPixel(x, y);
@@ -602,7 +602,7 @@ public class doFilter {
      */
 
     public static Bitmap binaryImage(Bitmap bitmapIn) {
-        Bitmap bitmapOut = doFilter.doGreyscale(bitmapIn);
+        Bitmap bitmapOut = DoFilter.doGreyscale(bitmapIn);
 
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();

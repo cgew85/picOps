@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.content.Context;
 import android.view.LayoutInflater;

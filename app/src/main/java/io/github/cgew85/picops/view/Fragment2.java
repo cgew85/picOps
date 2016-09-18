@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,10 +15,11 @@ import android.util.Log;
 import android.view.*;
 import android.widget.ImageView;
 import android.widget.Toast;
-import io.github.cgew85.picops.Anwendungsklassen.BitmapWorkerTask;
-import io.github.cgew85.picops.Anwendungsklassen.checkImageForScaling;
-import io.github.cgew85.picops.Anwendungsklassen.doFilter;
-import io.github.cgew85.picops.Anwendungsklassen.scaleImage;
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.BitmapWorkerTask;
+import io.github.cgew85.picops.controller.CheckImageForScaling;
+import io.github.cgew85.picops.controller.DoFilter;
+import io.github.cgew85.picops.controller.ScaleImage;
 
 import java.io.*;
 
@@ -139,11 +140,11 @@ public class Fragment2 extends Fragment {
                 File directoryOnExternalDevice = new File(directory + "/picOps/");
                 directoryOnExternalDevice.mkdirs();
                 OutputStream fos = null;
-                //File file = new File(directory,"/picOps/"+readWriteSettings.getRWSettings().getStringSetting(this, "Session")+".JPEG");
+                //File file = new File(directory,"/picOps/"+ReadWriteSettings.getRWSettings().getStringSetting(this, "Session")+".JPEG");
                 File file = new File(directory, "/picOps/img" + selection + ".JPEG");
 
                 /** Bilder skalieren **/
-                checkImageForScaling mCheckImageForScaling = new checkImageForScaling();
+                CheckImageForScaling mCheckImageForScaling = new CheckImageForScaling();
                 Bitmap bmp = mCheckImageForScaling.checkImageSizeAndScale(picturePath);
 
                 try {
@@ -197,9 +198,9 @@ public class Fragment2 extends Fragment {
                             //...
                         }
                     }
-                    bitmapOut = doFilter.blend2Images(bitmap1, bitmap2);
+                    bitmapOut = DoFilter.blend2Images(bitmap1, bitmap2);
                     ImageView iv = (ImageView) rootView.findViewById(R.id.combinedImages);
-                    iv.setImageBitmap(scaleImage.getResizedBitmap(bitmapOut, 400, 400));
+                    iv.setImageBitmap(ScaleImage.getResizedBitmap(bitmapOut, 400, 400));
                     bitmap1.recycle();
                     bitmap2.recycle();
                     imgFile1.delete();

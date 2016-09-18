@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,10 +11,11 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import io.github.cgew85.picops.Anwendungsklassen.cleanStartUp;
-import io.github.cgew85.picops.Anwendungsklassen.readWriteSettings;
-import io.github.cgew85.picops.Anwendungsklassen.storageDetails;
-import io.github.cgew85.picops.Grenzklassen.Session;
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.CleanStartUp;
+import io.github.cgew85.picops.controller.ReadWriteSettings;
+import io.github.cgew85.picops.controller.StorageDetails;
+import io.github.cgew85.picops.model.Session;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +45,7 @@ public class MainActivity extends Activity {
         Session session = Session.getSession();
 
         /** SharedPreferences Objekt anlegen **/
-        readWriteSettings settings = readWriteSettings.getRWSettings();
+        ReadWriteSettings settings = ReadWriteSettings.getRWSettings();
 
         /** Session in SharedPreferences speichern **/
         /** Einstellung f�r Session wird komplett gel�scht und neu erstellt **/
@@ -70,8 +71,8 @@ public class MainActivity extends Activity {
         buttonLoad.setOnClickListener(listener);
 
         /** Auswahl eines geeigneten Speicherplatzes **/
-        storageDetails storageDetails = new storageDetails();
-        String storageChoice = storageDetails.intOrExtStorage();
+        StorageDetails StorageDetails = new StorageDetails();
+        String storageChoice = StorageDetails.intOrExtStorage();
         Log.d("INFO", "Auswahl des Speichers: " + storageChoice);
 
         /** Settings anlegen **/
@@ -112,7 +113,7 @@ public class MainActivity extends Activity {
                     String directory = Environment.getExternalStorageDirectory() + "/picOps/";
                     File file = new File(directory);
                     if (file.exists() && file.isDirectory()) {
-                        cleanStartUp cleanDirectory = new cleanStartUp();
+                        CleanStartUp cleanDirectory = new CleanStartUp();
                         cleanDirectory.cleanUpOnStart();
                         File nomedia = new File(directory, ".nomedia");
                         if (nomedia.isFile() && nomedia.exists()) {
@@ -156,7 +157,7 @@ class btnListener implements OnClickListener {
         startButton.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         Intent intent = new Intent(v.getContext(), AuswahlActivity.class);
-        readWriteSettings rws = readWriteSettings.getRWSettings();
+        ReadWriteSettings rws = ReadWriteSettings.getRWSettings();
 
         /** First Run Setting schreiben **/
         rws.addSetting(v.getContext(), "First Run", false);

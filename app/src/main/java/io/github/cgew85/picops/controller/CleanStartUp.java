@@ -1,11 +1,11 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.os.Environment;
 
 import java.io.File;
 
-public class cleanStartUp {
-    public cleanStartUp() {
+public class CleanStartUp {
+    public CleanStartUp() {
     }
 
     public void cleanUpOnStart() {

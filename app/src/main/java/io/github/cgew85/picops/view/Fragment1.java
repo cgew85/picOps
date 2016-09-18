@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,9 +12,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import io.github.cgew85.picops.Anwendungsklassen.BitmapWorkerTask;
-import io.github.cgew85.picops.Anwendungsklassen.getFilePath;
-import io.github.cgew85.picops.Anwendungsklassen.simpleCounterForTempFileName;
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.BitmapWorkerTask;
+import io.github.cgew85.picops.controller.GetFilePath;
+import io.github.cgew85.picops.controller.SimpleCounterForTempFileName;
 
 import java.io.File;
 
@@ -28,7 +29,7 @@ public class Fragment1 extends Fragment {
     public Button buttonfilter;
     private int fragmentWidth;
     private int fragmentHeight;
-    simpleCounterForTempFileName counter = simpleCounterForTempFileName.getInstance();
+    SimpleCounterForTempFileName counter = SimpleCounterForTempFileName.getInstance();
 
     @Override
     public void onResume() {
@@ -88,11 +89,11 @@ public class Fragment1 extends Fragment {
 
                 Log.d("INFO", "Counter: " + counter.getCounter());
 
-                if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(rootView.getContext(), 0).equals("")) {
-                    String[] params = {getFilePath.getInstance().returnAbsoluteFilePath(rootView.getContext()), String.valueOf(fragmentWidth), String.valueOf(fragmentHeight)};
+                if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(rootView.getContext(), 0).equals("")) {
+                    String[] params = {GetFilePath.getInstance().returnAbsoluteFilePath(rootView.getContext()), String.valueOf(fragmentWidth), String.valueOf(fragmentHeight)};
                     task.execute(params);
                 } else {
-                    String[] params = {getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(rootView.getContext(), counter.getCounter() - 1), String.valueOf(fragmentWidth), String.valueOf(fragmentHeight)};
+                    String[] params = {GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(rootView.getContext(), counter.getCounter() - 1), String.valueOf(fragmentWidth), String.valueOf(fragmentHeight)};
                     task.execute(params);
                 }
             }

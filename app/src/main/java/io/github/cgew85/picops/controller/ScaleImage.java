@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -6,18 +6,18 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 /**
- * The Class scaleImage
+ * The Class ScaleImage
  * <p>
  * Bilder verkleinert in den Arbeitsspeicher laden.
  */
 
-public class scaleImage {
+public class ScaleImage {
 
 
     /**
      * Instantiates a new scale image.
      */
-    public scaleImage() {
+    public ScaleImage() {
     }
 
     /**

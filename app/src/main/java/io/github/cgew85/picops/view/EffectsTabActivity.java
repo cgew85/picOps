@@ -1,4 +1,4 @@
-package io.github.cgew85.picops;
+package io.github.cgew85.picops.view;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,18 +15,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import io.github.cgew85.picops.Anwendungsklassen.*;
-import io.github.cgew85.picops.Grenzklassen.logEntry;
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.*;
+import io.github.cgew85.picops.model.LogEntry;
 
 import java.io.*;
 import java.util.ArrayList;
 
 public class EffectsTabActivity extends ListActivity {
-    private ArrayList<String> localListEffectNames = doFilter.getAllEffectNames();
+    private ArrayList<String> localListEffectNames = DoFilter.getAllEffectNames();
     private ArrayAdapter<String> listAdapter;
     Bitmap bitmap = null;
     private int fragmentWidth, fragmentHeight;
-    simpleCounterForTempFileName counter = simpleCounterForTempFileName.getInstance();
+    SimpleCounterForTempFileName counter = SimpleCounterForTempFileName.getInstance();
     static int degree;
 
     @Override
@@ -66,14 +67,14 @@ public class EffectsTabActivity extends ListActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = doFilter.bildSpiegelungVertikal(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                    if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                        bitmap = DoFilter.bildSpiegelungVertikal(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = doFilter.bildSpiegelungVertikal(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = DoFilter.bildSpiegelungVertikal(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -110,14 +111,14 @@ public class EffectsTabActivity extends ListActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = doFilter.rundeEcken(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 90f);
+                    if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                        bitmap = DoFilter.rundeEcken(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 90f);
                     } else {
-                        bitmap = doFilter.rundeEcken(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 90f);
+                        bitmap = DoFilter.rundeEcken(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 90f);
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -160,14 +161,14 @@ public class EffectsTabActivity extends ListActivity {
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = doFilter.bildSpiegelung(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 2);
+                                        if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                                            bitmap = DoFilter.bildSpiegelung(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 2);
                                         } else {
-                                            bitmap = doFilter.bildSpiegelung(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 2);
+                                            bitmap = DoFilter.bildSpiegelung(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 2);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -204,14 +205,14 @@ public class EffectsTabActivity extends ListActivity {
                                 new Thread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = doFilter.bildSpiegelung(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 1);
+                                        if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                                            bitmap = DoFilter.bildSpiegelung(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 1);
                                         } else {
-                                            bitmap = doFilter.bildSpiegelung(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 1);
+                                            bitmap = DoFilter.bildSpiegelung(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 1);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -256,14 +257,14 @@ public class EffectsTabActivity extends ListActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = doFilter.createSepiaToningEffect(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), depth);
+                    if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                        bitmap = DoFilter.createSepiaToningEffect(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), depth);
                     } else {
-                        bitmap = doFilter.createSepiaToningEffect(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), depth);
+                        bitmap = DoFilter.createSepiaToningEffect(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), depth);
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -316,14 +317,14 @@ public class EffectsTabActivity extends ListActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                bitmap = doFilter.rotateImage(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), degree);
+                            if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                                bitmap = DoFilter.rotateImage(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), degree);
                             } else {
-                                bitmap = doFilter.rotateImage(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), degree);
+                                bitmap = DoFilter.rotateImage(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), degree);
                             }
                             String directory = Environment.getExternalStorageDirectory().toString();
                             OutputStream fos = null;
-                            File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                            File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                             try {
                                 fos = new FileOutputStream(file);
                                 BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -373,14 +374,14 @@ public class EffectsTabActivity extends ListActivity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            if (getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                bitmap = doFilter.addBorder(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueBorder);
+                            if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+                                bitmap = DoFilter.addBorder(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueBorder);
                             } else {
-                                bitmap = doFilter.addBorder(scaleImage.decodeSampledBitmapFromResource(getFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueBorder);
+                                bitmap = DoFilter.addBorder(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueBorder);
                             }
                             String directory = Environment.getExternalStorageDirectory().toString();
                             OutputStream fos = null;
-                            File file = new File(directory, "/picOps/" + readWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                            File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                             try {
                                 fos = new FileOutputStream(file);
                                 BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -442,8 +443,8 @@ public class EffectsTabActivity extends ListActivity {
     }
 
     private void addLogEntry(String name, String values) {
-        logEntry entry = new logEntry(name, values);
-        logEntryListManager manager = logEntryListManager.getInstance();
+        LogEntry entry = new LogEntry(name, values);
+        LogEntryListManager manager = LogEntryListManager.getInstance();
         manager.addLogEntry(entry);
         Log.d("INFO", "Logging - name: " + name + " values: " + values);
     }

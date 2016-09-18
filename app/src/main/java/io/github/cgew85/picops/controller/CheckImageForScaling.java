@@ -1,4 +1,4 @@
-package io.github.cgew85.picops.Anwendungsklassen;
+package io.github.cgew85.picops.controller;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,14 +9,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
- * The Class checkImageForScaling.
+ * The Class CheckImageForScaling.
  */
-public class checkImageForScaling {
+public class CheckImageForScaling {
 
     /**
      * Instantiates a new check image for scaling.
      */
-    public checkImageForScaling() {
+    public CheckImageForScaling() {
     }
 
     /**

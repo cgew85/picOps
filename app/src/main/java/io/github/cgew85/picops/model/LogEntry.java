@@ -1,13 +1,13 @@
-package io.github.cgew85.picops.Grenzklassen;
+package io.github.cgew85.picops.model;
 
-public class logEntry {
+public class LogEntry {
     private String name;
     private String values;
 
-    public logEntry() {
+    public LogEntry() {
     }
 
-    public logEntry(String name, String values) {
+    public LogEntry(String name, String values) {
         this.name = name;
         this.values = values;
     }
