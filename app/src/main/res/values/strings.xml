@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">pixelOperation</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_pixel">PixelActivity</string>
+    <string name="title_activity_bearbeitung">BearbeitungsActivity</string>
+    <string name="title_activity_wifi">WiFiDirectActivity</string>
+    <string name="title_filtereffectstab_activity">FilterEffectsTabActivity</string>
+    <string name="title_filtertab_activity">FilterTabActivity</string>
+    <string name="title_effectstab_activity">EffectsTabActivity</string>
+    <string-array name="filternamen_array">
+        <item>Filter 1</item>
+        <item>Filter 2</item>
+        <item>Filter 3</item>
+    </string-array>
+    <string-array name="effektnamen_array">
+        <item>Effekt 1</item>
+        <item>Effekt 2</item>
+        <item>Effekt 3</item>
+    </string-array>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+    <string name="Fragment1">This is Fragment 1</string>
+    <string name="Fragment2">This is Fragment 2</string>
+    <string name="Fragment3">This is Fragment 3</string>
+    <string name="engFilterFragList">Filters</string>
+    <string name="gerFilterFragList">Filter</string>
+    <string name="enable_p2p_button">P2P On/Off</string>
+    <string name="discover_peers_button">Discover</string>
+    <string name="p2p_off_warning">P2P appears to be turned off</string>
+    <string name="label_me">ME</string>
+    <string name="label_peers">PEERS</string>
+    <string name="empty_message">No devices found. Turn on P2P and perform discovery from the Action Bar</string>
+    <string name="connect_peer_button">Connect</string>
+    <string name="disconnect_peer_button">Disconnect</string>
+    <string name="get_file_button">Launch Gallery</string>
+    <string name="group_owner_text">"Am I the Group Owner? "</string>
+    <string name="yes">yes</string>
+    <string name="no">no</string>
+    <string name="client_text">This device will act as a client. Click on Gallery button to pick a local(stored) file
+    </string>
+    <string name="empty"></string>
+    <string name="enBtnUndo">Undo</string>
+    <string name="enBtnAcc">Accept</string>
+</resources>

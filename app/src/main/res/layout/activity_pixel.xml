@@ -1,0 +1,65 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ScrollView01"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+    <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:orientation="vertical"
+            android:background="#ffffff">
+
+        <ImageView
+                android:id="@+id/splashImageView"
+                android:layout_width="500px"
+                android:layout_height="319px"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/splash"/>
+
+        <Button
+                android:id="@+id/btnImageCapture"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Capture Image"
+                android:layout_below="@+id/splashImageView"
+                android:background="@drawable/button"
+                android:textColor="#000000"/>
+
+        <Button
+                android:id="@+id/btnGallerySelect"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Gallery Select"
+                android:background="@drawable/button"
+                android:layout_below="@+id/btnImageCapture"
+                android:textColor="#000000"/>
+
+        <Button
+                android:id="@+id/btnMultiPictureEditing"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Mulit-Image Editing"
+                android:background="@drawable/button"
+                android:layout_below="@+id/btnGallerySelect"
+                android:textColor="#000000"/>
+
+        <Button
+                android:id="@+id/btnOpenImage"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="Open Image"
+                android:background="@drawable/buttongrayed"
+                android:layout_below="@+id/btnMultiPictureEditing"
+                android:textColor="#000000"/>
+
+        <ImageView
+                android:id="@+id/smallImagePreview"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_below="@+id/btnOpenImage"
+                android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+</ScrollView>
