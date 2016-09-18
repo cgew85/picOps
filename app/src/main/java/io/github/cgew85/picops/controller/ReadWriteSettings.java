@@ -4,48 +4,25 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * The Class ReadWriteSettings
- * <p>
  * Anlegen oder Ab�ndern appinterner Einstellungen.
  */
 public class ReadWriteSettings {
-    /**
-     * The Constant SETTINGS.
-     */
-    public static final String SETTINGS = "LocalSettingsFile";
-
-    /**
-     * The settings.
-     */
+    private static final String SETTINGS = "LocalSettingsFile";
     private static SharedPreferences settings;
-
-    /**
-     * The editor.
-     */
     private SharedPreferences.Editor editor;
-
-    /**
-     * The rw settings.
-     */
-    private static ReadWriteSettings rwSettings = null;
-
-    /**
-     * Instantiates a new read write settings.
-     */
-    private ReadWriteSettings() {
-    }
+    private static ReadWriteSettings readWriteSettings = null;
 
     /**
      * Gets the rW settings (Singleton-Pattern).
      *
      * @return the rW settings
      */
-    public static synchronized ReadWriteSettings getRWSettings() {
-        if (rwSettings == null) {
-            rwSettings = new ReadWriteSettings();
+    public static synchronized ReadWriteSettings getReadWriteSettings() {
+        if (readWriteSettings == null) {
+            readWriteSettings = new ReadWriteSettings();
         }
 
-        return rwSettings;
+        return readWriteSettings;
     }
 
     /**

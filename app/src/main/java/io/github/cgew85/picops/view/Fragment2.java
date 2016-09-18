@@ -105,7 +105,7 @@ public class Fragment2 extends Fragment {
                     Toast.makeText(getActivity(), "File saved", Toast.LENGTH_LONG).show();
                     image1.setImageBitmap(null);
                     image2.setImageBitmap(null);
-                    Intent i = new Intent(getActivity(), AuswahlActivity.class);
+                    Intent i = new Intent(getActivity(), SelectionActivity.class);
                     startActivity(i);
                 }
                 bitmapOut.recycle();
@@ -140,7 +140,7 @@ public class Fragment2 extends Fragment {
                 File directoryOnExternalDevice = new File(directory + "/picOps/");
                 directoryOnExternalDevice.mkdirs();
                 OutputStream fos = null;
-                //File file = new File(directory,"/picOps/"+ReadWriteSettings.getRWSettings().getStringSetting(this, "Session")+".JPEG");
+                //File file = new File(directory,"/picOps/"+ReadWriteSettings.getReadWriteSettings().getStringSetting(this, "Session")+".JPEG");
                 File file = new File(directory, "/picOps/img" + selection + ".JPEG");
 
                 /** Bilder skalieren **/

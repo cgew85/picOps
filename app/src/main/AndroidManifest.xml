@@ -15,11 +15,11 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".view.AuswahlActivity"
+                android:name=".view.SelectionActivity"
                 android:label="@string/title_activity_pixel">
         </activity>
         <activity
-                android:name=".view.BearbeitungsActivity"
+                android:name=".view.EditingActivity"
                 android:label="@string/title_activity_bearbeitung"
                 android:uiOptions="splitActionBarWhenNarrow">
         </activity>

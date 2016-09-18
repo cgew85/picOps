@@ -59,7 +59,7 @@ public class FilterEffectsTabActivity extends TabActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Log.d("INFO", "Back pressed in TabHost");
-        Intent intent = new Intent(this, BearbeitungsActivity.class);
+        Intent intent = new Intent(this, EditingActivity.class);
         startActivity(intent);
     }
 

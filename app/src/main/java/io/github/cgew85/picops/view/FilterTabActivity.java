@@ -77,7 +77,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -101,7 +101,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("imageSharpening", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -121,7 +121,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -145,7 +145,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("gaussianBlur", "prevWidth:" + fragmentWidth + ";prevHeight:" + fragmentHeight);
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -165,7 +165,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -189,7 +189,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("doGreyscale", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -240,7 +240,7 @@ public class FilterTabActivity extends ListActivity {
                                 }
                                 String directory = Environment.getExternalStorageDirectory().toString();
                                 OutputStream fos = null;
-                                File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                 try {
                                     fos = new FileOutputStream(file);
                                     BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -264,7 +264,7 @@ public class FilterTabActivity extends ListActivity {
                                 bitmap = null;
                                 addLogEntry("verstaerkenFarbtyp", "type:" + type + ";percent:" + percent);
                                 System.gc();
-                                Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                 startActivity(intent);
                             }
                         }).start();
@@ -323,7 +323,7 @@ public class FilterTabActivity extends ListActivity {
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
-                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                     try {
                                         fos = new FileOutputStream(file);
                                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -347,7 +347,7 @@ public class FilterTabActivity extends ListActivity {
                                     bitmap = null;
                                     addLogEntry("glaetten", "value:" + valueGlaetten + ";fragmentWidth:" + fragmentWidth + ";fragmentHeight:" + fragmentHeight);
                                     System.gc();
-                                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                     startActivity(intent);
                                 }
                             }).start();
@@ -395,7 +395,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -419,7 +419,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("scharfzeichnen", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -451,7 +451,7 @@ public class FilterTabActivity extends ListActivity {
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
-                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                     try {
                                         fos = new FileOutputStream(file);
                                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -475,7 +475,7 @@ public class FilterTabActivity extends ListActivity {
                                     bitmap = null;
                                     addLogEntry("createContrast", "value:" + valueCreateContrast);
                                     System.gc();
-                                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                     startActivity(intent);
                                 }
                             }).start();
@@ -535,7 +535,7 @@ public class FilterTabActivity extends ListActivity {
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
-                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                     try {
                                         fos = new FileOutputStream(file);
                                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -559,7 +559,7 @@ public class FilterTabActivity extends ListActivity {
                                     bitmap = null;
                                     addLogEntry("createContrastSW", "value:" + valueCreateContrast);
                                     System.gc();
-                                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                     startActivity(intent);
                                 }
                             }).start();
@@ -620,7 +620,7 @@ public class FilterTabActivity extends ListActivity {
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
-                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                     try {
                                         fos = new FileOutputStream(file);
                                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -644,7 +644,7 @@ public class FilterTabActivity extends ListActivity {
                                     bitmap = null;
                                     addLogEntry("doGamma", "red:" + valueDoGamma + ";green:" + valueDoGamma + ";blue:" + valueDoGamma);
                                     System.gc();
-                                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                     startActivity(intent);
                                 }
                             }).start();
@@ -698,7 +698,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -722,7 +722,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("decreaseColorDepth", "bitOffset:" + 32);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -742,7 +742,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -766,7 +766,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("decreaseColorDepth", "bitOffset:" + 64);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -786,7 +786,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -810,7 +810,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("decreaseColorDepth", "bitOffset:" + 128);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -841,7 +841,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -865,7 +865,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("doBrightness", "value:" + 10);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -885,7 +885,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -909,7 +909,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("doBrightness", "value:" + (-10));
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -940,7 +940,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -964,7 +964,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("doColorFilter", "red:" + 1 + ";green:" + 0 + ";blue:" + 0);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -984,7 +984,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1008,7 +1008,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("doColorFilter", "red:" + 0 + ";green:" + 1 + ";blue:" + 0);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -1028,7 +1028,7 @@ public class FilterTabActivity extends ListActivity {
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
-                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                                        File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                                         try {
                                             fos = new FileOutputStream(file);
                                             BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1052,7 +1052,7 @@ public class FilterTabActivity extends ListActivity {
                                         bitmap = null;
                                         addLogEntry("doColorFilter", "red:" + 0 + ";green:" + 0 + ";blue:" + 1);
                                         System.gc();
-                                        Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                                        Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                         startActivity(intent);
                                     }
                                 }).start();
@@ -1078,7 +1078,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1102,7 +1102,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("boxBlur", "value:" + 10);
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -1121,7 +1121,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1145,7 +1145,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("hardLightMode", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -1164,7 +1164,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1188,7 +1188,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("binaryImage", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -1207,7 +1207,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1231,7 +1231,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("alphaBlending", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();
@@ -1250,7 +1250,7 @@ public class FilterTabActivity extends ListActivity {
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
-                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getRWSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+                    File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
                     try {
                         fos = new FileOutputStream(file);
                         BufferedOutputStream bos = new BufferedOutputStream(fos);
@@ -1274,7 +1274,7 @@ public class FilterTabActivity extends ListActivity {
                     bitmap = null;
                     addLogEntry("histogrammAusgleich", "");
                     System.gc();
-                    Intent intent = new Intent(v.getContext(), BearbeitungsActivity.class);
+                    Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);
                 }
             }).start();

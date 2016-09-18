@@ -25,7 +25,7 @@ import io.github.cgew85.picops.R;
 import io.github.cgew85.picops.controller.*;
 import io.github.cgew85.picops.model.Session;
 
-public class BearbeitungsActivity extends FragmentActivity {
+public class EditingActivity extends FragmentActivity {
     DrawerLayout mDrawerLayout;
     ListView mDrawerList;
     ActionBarDrawerToggle mDrawerToggle;
@@ -121,7 +121,7 @@ public class BearbeitungsActivity extends FragmentActivity {
     MenuItem.OnMenuItemClickListener UndoButtonClickListener = new MenuItem.OnMenuItemClickListener() {
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            Toast.makeText(BearbeitungsActivity.this, "Undo Button Pressed", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditingActivity.this, "Undo Button Pressed", Toast.LENGTH_LONG).show();
             SimpleCounterForTempFileName counter = SimpleCounterForTempFileName.getInstance();
             Log.d("INFO", "Undo button pressed, counter @ " + counter.getCounter());
             Log.d("INFO", "Starting undo process");
@@ -135,7 +135,7 @@ public class BearbeitungsActivity extends FragmentActivity {
                 manager.removeLastEntry();
             }
 
-            Intent refresh = new Intent(BearbeitungsActivity.this, BearbeitungsActivity.class);
+            Intent refresh = new Intent(EditingActivity.this, EditingActivity.class);
             startActivity(refresh);
             return false;
         }
@@ -148,23 +148,23 @@ public class BearbeitungsActivity extends FragmentActivity {
             ImageView iv = (ImageView) findViewById(R.id.workingimageview);
             iv.setImageBitmap(null);
 
-            Toast.makeText(BearbeitungsActivity.this, "Save Button Pressed", Toast.LENGTH_LONG).show();
+            Toast.makeText(EditingActivity.this, "Save Button Pressed", Toast.LENGTH_LONG).show();
             SaveImageToSD save = new SaveImageToSD();
             /** Session holen **/
-            ReadWriteSettings rwSetting = ReadWriteSettings.getRWSettings();
+            ReadWriteSettings rwSetting = ReadWriteSettings.getReadWriteSettings();
 
             LogEntryListManager manager = LogEntryListManager.getInstance();
             if (manager.getNumberOfEntries() > 0) {
                 save.applyStepToPicture(Integer.parseInt(rwSetting.getStringSetting(context, "Session")), context);
             }
-            Intent intent = new Intent(context, AuswahlActivity.class);
+            Intent intent = new Intent(context, SelectionActivity.class);
             startActivity(intent);
 
             Log.d("INFO", "### Bild erstellt ###");
             manager.clearList();
             Log.d("INFO", "### LogList cleared ###");
             /** Neue Session erzeugen **/
-            rwSetting = ReadWriteSettings.getRWSettings();
+            rwSetting = ReadWriteSettings.getReadWriteSettings();
             rwSetting.changeSetting(context, "Session", String.valueOf(session.createNewSessionID()));
             Log.d("INFO", "Session now: " + session.getSessionID());
             Log.d("INFO", "Session now(SP): " + rwSetting.getStringSetting(context, "Session"));
@@ -207,7 +207,7 @@ public class BearbeitungsActivity extends FragmentActivity {
         CleanStartUp csu = new CleanStartUp();
         csu.cleanUpOnStart();
 
-        Intent intent = new Intent(this, AuswahlActivity.class);
+        Intent intent = new Intent(this, SelectionActivity.class);
         startActivity(intent);
     }
 

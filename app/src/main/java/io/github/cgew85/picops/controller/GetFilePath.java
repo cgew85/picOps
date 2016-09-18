@@ -35,7 +35,7 @@ public class GetFilePath {
                 if (tmpArray.length > 0) {
                     // Browsing the array for the filename we are looking for
                     for (int i = 0; i < tmpArray.length; i++) {
-                        if (tmpArray[i].equals(ReadWriteSettings.getRWSettings().getStringSetting(context, "Session") + ".JPEG")) {
+                        if (tmpArray[i].equals(ReadWriteSettings.getReadWriteSettings().getStringSetting(context, "Session") + ".JPEG")) {
                             // Create a file object in order to get the absolute path
                             file = new File(directory.getAbsolutePath().concat("/").concat(tmpArray[i]));
                             // Another security check
@@ -66,7 +66,7 @@ public class GetFilePath {
             if (tmpArray.length > 0 && !tmpArray.equals(null)) {
                 // Browsing the array for the filename we are looking for
                 for (int i = 0; i < tmpArray.length; i++) {
-                    if (tmpArray[i].equals(ReadWriteSettings.getRWSettings().getStringSetting(context, "Session") + "-" + counter + ".JPEG")) {
+                    if (tmpArray[i].equals(ReadWriteSettings.getReadWriteSettings().getStringSetting(context, "Session") + "-" + counter + ".JPEG")) {
                         // Create a file object in order to get the absolute path
                         file = new File(directory.getAbsolutePath().concat("/").concat(tmpArray[i]));
                         // Another security check

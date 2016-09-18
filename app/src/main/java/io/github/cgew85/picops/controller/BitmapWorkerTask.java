@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import java.lang.ref.WeakReference;
 
-//** This class ensures that the image is loaded outside the ui thread **//
+// This class ensures that the image is loaded outside the ui thread
 public class BitmapWorkerTask extends AsyncTask<String, Void, Bitmap> {
     private final WeakReference<ImageView> imageViewReference;
     private String data = "";

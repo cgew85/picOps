@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,152 +14,142 @@ import io.github.cgew85.picops.controller.CleanStartUp;
 import io.github.cgew85.picops.controller.ReadWriteSettings;
 import io.github.cgew85.picops.controller.StorageDetails;
 import io.github.cgew85.picops.model.Session;
+import io.github.sporklibrary.Spork;
+import io.github.sporklibrary.android.annotations.BindClick;
+import io.github.sporklibrary.android.annotations.BindLayout;
+import io.github.sporklibrary.android.annotations.BindView;
 
 import java.io.File;
 import java.io.IOException;
 
-/**
- * The Class MainActivity.
- */
+@BindLayout(R.layout.activity_main)
 public class MainActivity extends Activity {
+
+    @BindView(R.id.buttonLoad)
+    private Button buttonStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Spork.bind(this);
 
-        /** Falls Applikation verlassen werden soll. Neustart beginnt dann wieder hier. **/
+        // In case app is supposed to exit, restart starts here
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-        /** Ausblenden der Action- und der Statusbar **/
+        // Remove action and status bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.activity_main);
-
-        Log.d("INFO", "<--- Programmstart --->");
-
-        /** Session holen **/
+        // Get session
         Session session = Session.getSession();
 
-        /** SharedPreferences Objekt anlegen **/
-        ReadWriteSettings settings = ReadWriteSettings.getRWSettings();
+        // Create SharedPreferences object **/
+        ReadWriteSettings settings = ReadWriteSettings.getReadWriteSettings();
 
-        /** Session in SharedPreferences speichern **/
-        /** Einstellung f�r Session wird komplett gel�scht und neu erstellt **/
+        // Save session in shared preferences
+        // Settings for session are completely erased and rewritten
         if (settings.checkIfSettingAlreadyExists(this, "Session")) {
-            Log.d("INFO", "Session SP existiert");
+            Log.d("INFO", "Session SP exists");
         }
         settings.changeSetting(this, "Session", String.valueOf(session.getSessionID()));
         Log.d("INFO", "Session: " + String.valueOf(session.getSessionID()));
         Log.d("INFO", "Session(SP): +" + settings.getStringSetting(this, "Session"));
 
-        /** Check auf First Run **/
+        // Check for first run
         boolean check = settings.checkIfSettingAlreadyExists(this, "First Run");
-        if (check == false) {
-            //TODO: First run behandeln
-            //TODO: Check auf picOps Verzeichnis
-            /** Falls firstRun dann entsprechend handeln **/
+        if (!check) {
+            //TODO: Take care of first run
+            //TODO: check for picOps folder
+            // In case of first run act accordingly
             settings.addSetting(this, "First Run", true);
         }
 
-        /** Listener f�r Button anlegen **/
-        Button buttonLoad = (Button) findViewById(R.id.buttonLoad);
-        btnListener listener = new btnListener();
-        buttonLoad.setOnClickListener(listener);
-
-        /** Auswahl eines geeigneten Speicherplatzes **/
+        // Check for appropriate save destination
         StorageDetails StorageDetails = new StorageDetails();
         String storageChoice = StorageDetails.intOrExtStorage();
-        Log.d("INFO", "Auswahl des Speichers: " + storageChoice);
+        Log.d("INFO", "Selection of save destination: " + storageChoice);
 
-        /** Settings anlegen **/
-        /** Settings f�r Speichernutzung **/
+        // Create settings
         if (storageChoice.equals("int")) {
             settings.addSetting(this, "Speicherort", "int");
-            /** L�schen vorheriger temp. Bilder **/
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String directoryName = getFilesDir() + "/picOps/";
-                    File file = getDir(directoryName, 0);
-                    if (file.isDirectory() && file.exists()) {
-                        for (File fileItem : file.listFiles()) {
-                            if (!(fileItem.getName().equals(".nomedia"))) {
-                                deleteFile(fileItem.getAbsolutePath());
-                            }
-
-                        }
-                    }
-                    File nomedia = new File(file, ".nomedia");
-                    if (!(file.exists() && file.isFile())) {
-                        try {
-                            nomedia.createNewFile();
-                            Log.d("INFO", "Creating .nomedia file");
-                        } catch (IOException e) {
-                            Log.d("INFO", "Could not create .nomedia file");
-                        }
-                    }
-                }
-            }).start();
+            startInternalStorageSetup();
         } else if (storageChoice.equals("ext")) {
             settings.addSetting(this, "Speicherort", "ext");
-            /** L�schen vorheriger temp. Bilder **/
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    String directory = Environment.getExternalStorageDirectory() + "/picOps/";
-                    File file = new File(directory);
-                    if (file.exists() && file.isDirectory()) {
-                        CleanStartUp cleanDirectory = new CleanStartUp();
-                        cleanDirectory.cleanUpOnStart();
-                        File nomedia = new File(directory, ".nomedia");
-                        if (nomedia.isFile() && nomedia.exists()) {
-                            Log.d("INFO", ".nomedia file is present");
-                        } else {
-                            try {
-                                nomedia.createNewFile();
-                                Log.d("INFO", ".nomedia file created");
-                            } catch (IOException e) {
-                                Log.d("INFO", ".nomedia file could not be created");
-                            }
-                        }
-                    } else {
-                        file.mkdir();
-                        File nomedia = new File(directory, ".nomedia");
-                        if (!(file.exists() && file.isFile())) {
-                            try {
-                                nomedia.createNewFile();
-                                Log.d("INFO", "Creating .nomedia file");
-                            } catch (IOException e) {
-                                Log.d("INFO", "Could not create .nomedia file");
-                            }
-                        }
-                    }
-                }
-            }).start();
+            startExternalStorageSetup();
         }
     }
-}
 
-/**
- * Subklasse onClickListener
- **/
-class btnListener implements OnClickListener {
-    /**
-     * Start der eigentlichen App
-     **/
-    public void onClick(final View v) {
-        Button startButton = (Button) v.findViewById(R.id.buttonLoad);
-        startButton.setBackgroundResource(R.drawable.buttononclick);
-        startButton.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+    private void startInternalStorageSetup() {
+        // Delete temporary images from earlier runs
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String directoryName = getFilesDir() + "/picOps/";
+                File file = getDir(directoryName, 0);
+                if (file.isDirectory() && file.exists()) {
+                    for (File fileItem : file.listFiles()) {
+                        if (!(fileItem.getName().equals(".nomedia"))) {
+                            deleteFile(fileItem.getAbsolutePath());
+                        }
 
-        Intent intent = new Intent(v.getContext(), AuswahlActivity.class);
-        ReadWriteSettings rws = ReadWriteSettings.getRWSettings();
+                    }
+                }
+                File nomedia = new File(file, ".nomedia");
+                if (!(file.exists() && file.isFile())) {
+                    createNoMediaFile(nomedia);
+                }
+            }
+        }).start();
+    }
 
-        /** First Run Setting schreiben **/
-        rws.addSetting(v.getContext(), "First Run", false);
+    private void startExternalStorageSetup() {
+        // Delete temporary images from earlier runs
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String directory = Environment.getExternalStorageDirectory() + "/picOps/";
+                File file = new File(directory);
+                if (file.exists() && file.isDirectory()) {
+                    CleanStartUp cleanDirectory = new CleanStartUp();
+                    cleanDirectory.cleanUpOnStart();
+                    File nomedia = new File(directory, ".nomedia");
+                    if (nomedia.isFile() && nomedia.exists()) {
+                        Log.d("INFO", ".nomedia file is present");
+                    } else {
+                        createNoMediaFile(nomedia);
+                    }
+                } else {
+                    file.mkdir();
+                    File nomedia = new File(directory, ".nomedia");
+                    if (!(file.exists() && file.isFile())) {
+                        createNoMediaFile(nomedia);
+                    }
+                }
+            }
+        }).start();
+    }
 
-        v.getContext().startActivity(intent);
+    private void createNoMediaFile(final File nomedia) {
+        try {
+            nomedia.createNewFile();
+            Log.d("INFO", "Creating .nomedia file");
+        } catch (IOException e) {
+            Log.d("INFO", "Could not create .nomedia file");
+        }
+    }
+
+    @BindClick(R.id.buttonLoad)
+    private void start(final Button button) {
+        buttonStart.setBackgroundResource(R.drawable.buttononclick);
+        buttonStart.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+
+        Intent intent = new Intent(button.getContext(), SelectionActivity.class);
+        ReadWriteSettings readWriteSettings = ReadWriteSettings.getReadWriteSettings();
+
+        // Write first run setting
+        readWriteSettings.addSetting(button.getContext(), "First Run", false);
+
+        button.getContext().startActivity(intent);
     }
 }

@@ -10,7 +10,7 @@ public class UndoLastStep {
     public UndoLastStep() {
     }
 
-    private ReadWriteSettings rwSettings = ReadWriteSettings.getRWSettings();
+    private ReadWriteSettings rwSettings = ReadWriteSettings.getReadWriteSettings();
     private SimpleCounterForTempFileName simpleCounter = SimpleCounterForTempFileName.getInstance();
 
     public boolean undo(int counter, Context context) {
