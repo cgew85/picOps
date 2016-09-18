@@ -40,49 +40,16 @@ import io.github.cgew85.picops.model.PascalschesDreieck;
 
 import java.util.ArrayList;
 
-/**
- * The Class DoFilter.
- */
-public class DoFilter {
+public class FilterController {
 
-    /**
-     * The Constant FLIP_VERTICAL. -> F�r Spiegelung
-     */
-    public static final int FLIP_VERTICAL = 1;
+    // The Constant FLIP_VERTICAL. -> for mirroring
+    private static final int FLIP_VERTICAL = 1;
 
-    /**
-     * The Constant FLIP_HORIZONTAL. -> F�r Spiegelung
-     */
-    public static final int FLIP_HORIZONTAL = 2;
-
-    /**
-     * The Constant PI.
-     */
-    public static final double PI = 3.14159d;
-
-    /**
-     * The Constant FULL_CIRCLE_DEGREE.
-     */
-    public static final double FULL_CIRCLE_DEGREE = 360d;
-
-    /**
-     * The Constant HALF_CIRCLE_DEGREE.
-     */
-    public static final double HALF_CIRCLE_DEGREE = 180d;
-
-    /**
-     * The Constant RANGE.
-     */
-    public static final double RANGE = 256d;
-
-    /**
-     * Instantiates a new do filter.
-     */
-    public DoFilter() {
-    }
+    // The Constant FLIP_HORIZONTAL. -> for mirroring
+    private static final int FLIP_HORIZONTAL = 2;
 
     public static ArrayList<String> getAllFilterNames() {
-        ArrayList<String> allFilterNames = new ArrayList<String>();
+        ArrayList<String> allFilterNames = new ArrayList<>();
 
         allFilterNames.add("verstaerkenFarbtyp");
         allFilterNames.add("glaetten");
@@ -106,9 +73,8 @@ public class DoFilter {
     }
 
     public static ArrayList<String> getAllEffectNames() {
-        ArrayList<String> allEffectNames = new ArrayList<String>();
+        ArrayList<String> allEffectNames = new ArrayList<>();
 
-        /** Alle implementiert **/
         allEffectNames.add("bildSpiegelungVertikal");
         allEffectNames.add("bildSpiegelung");
         allEffectNames.add("rundeEcken");
@@ -125,9 +91,8 @@ public class DoFilter {
      *
      * @param bitmapIn Eingangsbitmap
      * @param value    Groesse des Rahmens
-     * @retunr Ausgabebitmap
+     * @return Ausgabebitmap
      */
-
     public static Bitmap addBorder(Bitmap bitmapIn, double value) {
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
@@ -179,7 +144,7 @@ public class DoFilter {
 
         float factor = outputWidth / outputHeight;
 
-        /** factor  ->  Aspect Ratio **/
+        // factor  ->  Aspect Ratio
         if (factor > 1) {
             if ((outputWidth > 640) || (outputHeight > 480)) {
                 outputWidth = 640;
@@ -196,9 +161,9 @@ public class DoFilter {
                 outputHeight = 640;
             }
         }
-        /** Ende Aspect Ratio **/
+        // End aspect ratio
 
-        /**  Abfangen unm�glicher Werte **/
+        // catch impossible values
         if ((outputWidth > 640) || (outputHeight > 640)) {
             int biggerValue = Math.max(outputWidth, outputHeight);
             if (biggerValue == outputWidth) {
@@ -255,12 +220,7 @@ public class DoFilter {
         canvas.drawBitmap(pixels1, 0, outputWidth, 0, 0, outputWidth, outputHeight, true, null);
         canvas.drawBitmap(pixels2, 0, outputWidth, 0, 0, outputWidth, outputHeight, true, null);
         bitmapIn1.recycle();
-        bitmapIn1 = null;
         bitmapIn2.recycle();
-        bitmapIn2 = null;
-        pixels1 = null;
-        pixels2 = null;
-        canvas = null;
 
         return bitmapOut;
     }
@@ -278,7 +238,7 @@ public class DoFilter {
         int[] blueHistogram = new int[256];
         int pixel, red, green, blue;
 
-        /** Vorf�llen mit 0 **/
+        // Fill with zeroes
         for (int i = 0; i < redHistogram.length; i++) {
             redHistogram[i] = greenHistogram[i] = blueHistogram[i] = 0;
         }
@@ -295,7 +255,7 @@ public class DoFilter {
             }
         }
 
-        ArrayList<int[]> histogram = new ArrayList<int[]>();
+        ArrayList<int[]> histogram = new ArrayList<>();
         histogram.add(redHistogram);
         histogram.add(greenHistogram);
         histogram.add(blueHistogram);
@@ -313,7 +273,7 @@ public class DoFilter {
         int[] greenHistogram = new int[256];
         int[] blueHistogram = new int[256];
 
-        /** Vorbelegen mit 0 **/
+        // Fill with zeroes
         for (int i = 0; i < redHistogram.length; i++) {
             redHistogram[i] = greenHistogram[i] = blueHistogram[i] = 0;
         }
@@ -386,8 +346,6 @@ public class DoFilter {
         return bitmapOut;
     }
 
-    /** Ende Histogrammausgleich **/
-
     /**
      * Filter
      * Alpha blending
@@ -402,9 +360,9 @@ public class DoFilter {
         int pixel;
         Bitmap bitmapAlpha = Bitmap.createBitmap(width, height, bitmapIn.getConfig());
 
-        bitmapAlpha = DoFilter.doGreyscale(bitmapIn);
+        bitmapAlpha = FilterController.doGreyscale(bitmapIn);
 
-        /** Alpha halbieren des Graustufenbildes **/
+        // Alpha halbieren des Graustufenbildes
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 pixel = bitmapAlpha.getPixel(x, y);
@@ -417,7 +375,7 @@ public class DoFilter {
 
         Bitmap bitmapOut = Bitmap.createBitmap(width, height, bitmapIn.getConfig());
 
-        /** Rot und Gr�n abschw�chen **/
+        // Reduce red and green
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 pixel = bitmapIn.getPixel(x, y);
@@ -433,7 +391,6 @@ public class DoFilter {
         Canvas canvas = new Canvas(bitmapOut);
         canvas.drawBitmap(bitmapAlpha, 0, 0, null);
         bitmapAlpha.recycle();
-        bitmapAlpha = null;
 
         return bitmapOut;
     }
@@ -550,10 +507,6 @@ public class DoFilter {
         }
     }
 
-    /*******************/
-    /** Ende Box Blur **/
-    /*******************/
-
     /**
      * Filter
      * Hard light mode
@@ -567,7 +520,7 @@ public class DoFilter {
         double grey;
         Color color = new Color();
 
-        bitmapOut = DoFilter.doGreyscale(bitmapIn);
+        bitmapOut = FilterController.doGreyscale(bitmapIn);
         for (int x = 0; x < bitmapOut.getWidth(); x++) {
             for (int y = 0; y < bitmapIn.getHeight(); y++) {
                 pixel = bitmapIn.getPixel(x, y);
@@ -591,8 +544,6 @@ public class DoFilter {
         }
     }
 
-    /** Ende Filter Hard Light Mode **/
-
     /**
      * Filter
      * Bin�rbild
@@ -600,9 +551,8 @@ public class DoFilter {
      * @param bitmapIn Eingangsbitmap
      * @return Ausgabebitmap
      */
-
     public static Bitmap binaryImage(Bitmap bitmapIn) {
-        Bitmap bitmapOut = DoFilter.doGreyscale(bitmapIn);
+        Bitmap bitmapOut = FilterController.doGreyscale(bitmapIn);
 
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
@@ -631,8 +581,6 @@ public class DoFilter {
             return 0;
         }
     }
-
-    /** Ende Filter Bin�rbild **/
 
     /**
      * Effekt
@@ -789,9 +737,9 @@ public class DoFilter {
     public static Bitmap glaetten(Bitmap bitmapIn, int value) {
         Faltungsmaske faltungsmaske = new Faltungsmaske(value);
         faltungsmaske.setAll(1);
-        //faltungsmaske.Maske[1][1] = value;
-        faltungsmaske.Factor = faltungsmaske.Maske.length; // was value + 8
-        faltungsmaske.Offset = 0; // was 1
+        //faltungsmaske.mask[1][1] = value;
+        faltungsmaske.factor = faltungsmaske.mask.length; // was value + 8
+        faltungsmaske.offset = 0; // was 1
 
         return Faltungsmaske.berechneFaltungMxM(bitmapIn, faltungsmaske);
     }
@@ -801,17 +749,16 @@ public class DoFilter {
      * Glaetten des Bildes durch Mittelwertbildung
      *
      * @param bitmapIn Eingangsbitmap
-     * @param value    Wert der Gl�ttung
      * @return Ausgabebitmap
      */
-    public static Bitmap glaettenFuerExport(Bitmap bitmapIn, int oldSizeOfMask, int prevWidth, int prevHeight, int curWidth, int curHeight) {
-        /** Value: Quadratische Maske mit value x value als Dimensionen **/
+    static Bitmap glaettenFuerExport(Bitmap bitmapIn, int oldSizeOfMask, int prevWidth, int prevHeight, int curWidth, int curHeight) {
+        /** Value: Quadratische mask mit value x value als Dimensionen **/
         int newSizeOfMask = adjustSizeForMask(oldSizeOfMask, prevWidth, prevHeight, curWidth, curHeight);
         Faltungsmaske faltungsmaske = new Faltungsmaske(newSizeOfMask);
         faltungsmaske.setAll(1);
-        //faltungsmaske.Maske[1][1] = value;
-        faltungsmaske.Factor = faltungsmaske.Maske.length; // was value + 8
-        faltungsmaske.Offset = 0; // was 1
+        //faltungsmaske.mask[1][1] = value;
+        faltungsmaske.factor = faltungsmaske.mask.length; // was value + 8
+        faltungsmaske.offset = 0; // was 1
 
         return Faltungsmaske.berechneFaltungMxM(bitmapIn, faltungsmaske);
     }
@@ -924,7 +871,7 @@ public class DoFilter {
                 bGreen = Color.green(bPixel);
                 bBlue = Color.blue(bPixel);
 
-                /** Threshold **/
+                // Threshold
                 if (Math.abs(oRed - bRed) >= threshold) {
                     oRed = (int) (amount * (oRed - bRed) + oRed);
                     oRed = oRed > 255 ? 255 : oRed < 0 ? 0 : oRed;
@@ -950,7 +897,6 @@ public class DoFilter {
      * Scharfzeichnungsfilter.
      *
      * @param bitmapIn Eingangsbitmap
-     * @param weight   Gewichtung
      * @return Ausgabebitmap
      */
     public static Bitmap scharfzeichnen(Bitmap bitmapIn) {
@@ -962,8 +908,8 @@ public class DoFilter {
                 };
         Faltungsmaske faltungsmaske = new Faltungsmaske(3);
         faltungsmaske.applyFaltungskonfiguration(scharfzeichnerConfig);
-        faltungsmaske.Factor = 1; //weight - 8; // was weight - 8
-        faltungsmaske.Offset = 0;
+        faltungsmaske.factor = 1; //weight - 8; // was weight - 8
+        faltungsmaske.offset = 0;
 
         return Faltungsmaske.berechneFaltung3x3(bitmapIn, faltungsmaske);
     }
@@ -984,8 +930,8 @@ public class DoFilter {
                 };
         Faltungsmaske faltungsmaske = new Faltungsmaske(3);
         faltungsmaske.applyFaltungskonfiguration(FaltungsmaskeGaussianBlur);
-        faltungsmaske.Factor = 16;
-        faltungsmaske.Offset = 0;
+        faltungsmaske.factor = 16;
+        faltungsmaske.offset = 0;
 
         return Faltungsmaske.berechneFaltung3x3(bitmapIn, faltungsmaske);
     }
@@ -1008,8 +954,8 @@ public class DoFilter {
                 };
         Faltungsmaske faltungsmaske = new Faltungsmaske(5);
         faltungsmaske.applyFaltungskonfigurationBig(FaltungsmaskeGaussianBlur);
-        faltungsmaske.Factor = 256;
-        faltungsmaske.Offset = 0;
+        faltungsmaske.factor = 256;
+        faltungsmaske.offset = 0;
 
         return Faltungsmaske.berechneFaltung5x5(bitmapIn, faltungsmaske);
     }
@@ -1023,15 +969,15 @@ public class DoFilter {
      * @param origHeight   H�he des Previewbildes
      * @param curWidth     Weite des jetzigen Bildes
      * @param curHeight    H�he des jetzigen Bildes
-     * @param usedMaskSize Seitenl�nge der benutzten Maske
+     * @param usedMaskSize Seitenl�nge der benutzten mask
      * @return Ausgabebild
      */
-    public static Bitmap gaussianBlurForOutput(Bitmap bitmapIn, int origWidth, int origHeight, int curWidth, int curHeight, int usedMaskSize) {
+    static Bitmap gaussianBlurForOutput(Bitmap bitmapIn, int origWidth, int origHeight, int curWidth, int curHeight, int usedMaskSize) {
         double[][] faltungsmaskeArray = PascalschesDreieck.generateFaltungsmaske(usedMaskSize, origWidth, origHeight, curWidth, curHeight);
         Faltungsmaske faltungsmaske = new Faltungsmaske(faltungsmaskeArray.length);
         faltungsmaske.applyFaltungskonfigurationBig(faltungsmaskeArray, faltungsmaskeArray.length);
-        faltungsmaske.Factor = PascalschesDreieck.koeffZurNorm(faltungsmaskeArray);
-        faltungsmaske.Offset = 0.0;
+        faltungsmaske.factor = PascalschesDreieck.koeffZurNorm(faltungsmaskeArray);
+        faltungsmaske.offset = 0.0;
 
         return Faltungsmaske.berechneFaltungMxM(bitmapIn, faltungsmaske);
     }
@@ -1226,7 +1172,7 @@ public class DoFilter {
      * Verringern der Farbtiefe.
      *
      * @param bitmapIn  Eingangsbitmap
-     * @param bitOffset Bit Offset (32,64,128...)
+     * @param bitOffset Bit offset (32,64,128...)
      * @return Ausgabebitmap
      */
     public static Bitmap decreaseColorDepth(Bitmap bitmapIn, int bitOffset) {
@@ -1272,8 +1218,8 @@ public class DoFilter {
      * Effekt
      * Sepia-Effekt.
      *
-     * @param bitmapIn   Eingangsbitmap
-     * @param intensitiy Intensit�t
+     * @param bitmapIn  Eingangsbitmap
+     * @param intensity Intensit�t
      * @return Ausgabebitmap
      */
     public static Bitmap createSepiaToningEffect(Bitmap bitmapIn, int intensity) {
@@ -1281,7 +1227,6 @@ public class DoFilter {
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
         int red, green, blue;
-        red = green = blue = 0;
 
         Bitmap bitmapOut = Bitmap.createBitmap(width, height, bitmapIn.getConfig());
 
@@ -1309,49 +1254,6 @@ public class DoFilter {
                 bitmapOut.setPixel(x, y, Color.argb(0xFF, red, green, blue));
             }
         }
-        /*
-		final double greyscaleRed = 0.3;
-		final double greyscaleGreen = 0.59;
-		final double greyscaleBlue = 0.11;
-		
-		int A, R, G, B;
-		int pixel;
-		
-		for(int x = 0;x < width; ++x)
-		{
-			for(int y = 0;y < height; ++y)
-			{
-				pixel = bitmapIn.getPixel(x, y);
-				A = Color.alpha(pixel);
-				R = Color.red(pixel);
-				G = Color.green(pixel);
-				B = Color.blue(pixel);
-				
-				B = G = R = (int)(greyscaleRed * R + greyscaleGreen * G + greyscaleBlue * B);
-				
-				R += (depth * red);
-				if(R > 255)
-				{
-					R = 255;
-				}
-				
-				G += (depth * green);
-				if(G > 255)
-				{
-					G = 255;
-				}
-				
-				B += (depth * blue);
-				if(B > 255)
-				{
-					B = 255;
-				}
-				
-				bitmapOut.setPixel(x, y, Color.argb(A, R, G, B));
-						
-			}
-		}
-		*/
         return bitmapOut;
     }
 
@@ -1446,5 +1348,4 @@ public class DoFilter {
 
         return bitmapOut;
     }
-
 }

@@ -18,7 +18,7 @@ import android.widget.Toast;
 import io.github.cgew85.picops.R;
 import io.github.cgew85.picops.controller.BitmapWorkerTask;
 import io.github.cgew85.picops.controller.CheckImageForScaling;
-import io.github.cgew85.picops.controller.DoFilter;
+import io.github.cgew85.picops.controller.FilterController;
 import io.github.cgew85.picops.controller.ScaleImage;
 
 import java.io.*;
@@ -198,7 +198,7 @@ public class Fragment2 extends Fragment {
                             //...
                         }
                     }
-                    bitmapOut = DoFilter.blend2Images(bitmap1, bitmap2);
+                    bitmapOut = FilterController.blend2Images(bitmap1, bitmap2);
                     ImageView iv = (ImageView) rootView.findViewById(R.id.combinedImages);
                     iv.setImageBitmap(ScaleImage.getResizedBitmap(bitmapOut, 400, 400));
                     bitmap1.recycle();

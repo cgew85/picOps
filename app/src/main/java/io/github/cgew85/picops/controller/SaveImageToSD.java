@@ -21,30 +21,16 @@ import java.util.concurrent.Executors;
  */
 public class SaveImageToSD {
 
-    /**
-     * The bitmap.
-     */
-    Bitmap bitmap = null;
-
-    /**
-     * The directory pictures.
-     */
+    private Bitmap bitmap = null;
     private String DIRECTORY_PICTURES = "Pictures";
 
-    final ExecutorService tpe = Executors.newSingleThreadExecutor();
-
-    /**
-     * Instantiates a new save image to sd.
-     */
-    public SaveImageToSD() {
-    }
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     /**
      * Apply step to picture.
      *
      * @param sessionID the session id
      * @param context   the context
-     * @throws FileNotFoundException
      */
     public void applyStepToPicture(int sessionID, Context context) {
         /** File Objekt anlegen - zeigt auf Originalfoto **/
@@ -102,7 +88,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying imageSharpening...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -121,7 +107,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.imageSharpening(inBitmap, 20, 20));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.imageSharpening(inBitmap, 20, 20));
 
                     try {
                         inStream.close();
@@ -129,7 +115,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -175,7 +161,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Gaussian Blur...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -196,7 +182,7 @@ public class SaveImageToSD {
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
                     Log.d("INFO", "in gaussianBlur -> alte Dimensionen: " + inBitmap.getWidth() + " / " + inBitmap.getHeight());
                     Log.d("INFO", "in gaussianBlur -> neue Dimensionen: " + inBitmap.getWidth() + " / " + inBitmap.getHeight());
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.gaussianBlurForOutput(inBitmap, origWidth, origHeight, inBitmap.getWidth(), inBitmap.getHeight(), 3));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.gaussianBlurForOutput(inBitmap, origWidth, origHeight, inBitmap.getWidth(), inBitmap.getHeight(), 3));
 
                     try {
                         inStream.close();
@@ -204,7 +190,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -242,7 +228,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Greyscale...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -261,7 +247,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doGreyscale(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.doGreyscale(inBitmap));
 
                     try {
                         inStream.close();
@@ -269,7 +255,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -313,7 +299,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Farbtypverstaerkung...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -332,7 +318,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.verstaerkenFarbtyp(inBitmap, typeValue, percentValue));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.verstaerkenFarbtyp(inBitmap, typeValue, percentValue));
 
                     try {
                         inStream.close();
@@ -340,7 +326,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -389,7 +375,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Glaetten...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -408,7 +394,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.glaettenFuerExport(inBitmap, glaettungsMaske, fragmentWidth, fragmentHeight, inBitmap.getWidth(), inBitmap.getHeight()));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.glaettenFuerExport(inBitmap, glaettungsMaske, fragmentWidth, fragmentHeight, inBitmap.getWidth(), inBitmap.getHeight()));
 
                     try {
                         inStream.close();
@@ -416,7 +402,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -453,7 +439,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Scharfzeichnen...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -472,7 +458,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.scharfzeichnen(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.scharfzeichnen(inBitmap));
 
                     try {
                         inStream.close();
@@ -480,7 +466,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -521,7 +507,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Create Contrast...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -540,7 +526,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.createContrast(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.createContrast(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -548,7 +534,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -589,7 +575,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Create Contrast SW...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -608,7 +594,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.createContrastSW(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.createContrastSW(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -616,7 +602,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -664,7 +650,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Do Gamma...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -683,7 +669,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doGamma(inBitmap, red, green, blue));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.doGamma(inBitmap, red, green, blue));
 
                     try {
                         inStream.close();
@@ -691,7 +677,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -732,7 +718,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Decrease Colordepth...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -751,7 +737,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.decreaseColorDepth(inBitmap, bitOffset));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.decreaseColorDepth(inBitmap, bitOffset));
 
                     try {
                         inStream.close();
@@ -759,7 +745,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -800,7 +786,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Do Brightness...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -819,7 +805,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doBrightness(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.doBrightness(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -827,7 +813,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -875,7 +861,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Do Color Filter...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -894,7 +880,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.doColorFilter(inBitmap, red, green, blue));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.doColorFilter(inBitmap, red, green, blue));
 
                     try {
                         inStream.close();
@@ -902,7 +888,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -940,7 +926,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying bildSpiegelungVertikal...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -959,7 +945,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.bildSpiegelungVertikal((inBitmap)));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.bildSpiegelungVertikal((inBitmap)));
 
                     try {
                         inStream.close();
@@ -967,7 +953,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1004,7 +990,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying Runde Ecken...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1023,7 +1009,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.rundeEcken(inBitmap, 90f));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.rundeEcken(inBitmap, 90f));
 
                     try {
                         inStream.close();
@@ -1031,7 +1017,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1072,7 +1058,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying bildSpiegelung...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1091,7 +1077,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.bildSpiegelung(inBitmap, valueSpiegelung));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.bildSpiegelung(inBitmap, valueSpiegelung));
 
                     try {
                         inStream.close();
@@ -1099,7 +1085,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1140,7 +1126,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying createSepiaToningEffect...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1159,7 +1145,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.createSepiaToningEffect(inBitmap, depthValue));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.createSepiaToningEffect(inBitmap, depthValue));
 
                     try {
                         inStream.close();
@@ -1167,7 +1153,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1208,7 +1194,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying rotateImage...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1227,7 +1213,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.rotateImage(inBitmap, degree));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.rotateImage(inBitmap, degree));
 
                     try {
                         inStream.close();
@@ -1235,7 +1221,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1276,7 +1262,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying boxBlur...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1295,7 +1281,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.boxBlur(inBitmap, value));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.boxBlur(inBitmap, value));
 
                     try {
                         inStream.close();
@@ -1303,7 +1289,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1340,7 +1326,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying hardLightMode...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1359,7 +1345,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.hardLightMode(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.hardLightMode(inBitmap));
 
                     try {
                         inStream.close();
@@ -1367,7 +1353,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1404,7 +1390,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying binaryImage...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1423,7 +1409,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.binaryImage(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.binaryImage(inBitmap));
 
                     try {
                         inStream.close();
@@ -1431,7 +1417,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1468,7 +1454,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying alphaBlending...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1487,7 +1473,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.alphaBlending(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.alphaBlending(inBitmap));
 
                     try {
                         inStream.close();
@@ -1495,7 +1481,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1532,7 +1518,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying histogrammAusgleich...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1551,7 +1537,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.histogrammAusgleich(inBitmap));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.histogrammAusgleich(inBitmap));
 
                     try {
                         inStream.close();
@@ -1559,7 +1545,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;
@@ -1600,7 +1586,7 @@ public class SaveImageToSD {
             mDialog.setMessage("Applying addBorder...");
             mDialog.setCancelable(false);
             mDialog.show();
-            tpe.submit(new Runnable()
+            executorService.submit(new Runnable()
                     //new Thread(new Runnable()
             {
 
@@ -1619,7 +1605,7 @@ public class SaveImageToSD {
                     }
 
                     Bitmap inBitmap = BitmapFactory.decodeStream(inStream, null, options);
-                    Bitmap bitmap = Bitmap.createBitmap(DoFilter.addBorder(inBitmap, valueBorder));
+                    Bitmap bitmap = Bitmap.createBitmap(FilterController.addBorder(inBitmap, valueBorder));
 
                     try {
                         inStream.close();
@@ -1627,7 +1613,7 @@ public class SaveImageToSD {
                         e1.printStackTrace();
                     }
                     Log.d("INFO", "Stream geschlossen");
-                    //bitmap = Bitmap.createBitmap(DoFilter.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
+                    //bitmap = Bitmap.createBitmap(FilterController.unsharpMask(BitmapFactory.decodeFile(file.getAbsolutePath())));
 
                     Log.d("INFO", "In run");
                     OutputStream fos = null;

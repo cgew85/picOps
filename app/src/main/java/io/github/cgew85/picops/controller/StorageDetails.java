@@ -23,17 +23,8 @@ import java.io.File;
 public class StorageDetails {
 
     /**
-     * Instantiates a new storage details.
-     */
-    public StorageDetails() {
-    }
-
-
-    /**
      * Pr�ft, welcher Speicher vorhanden ist und
      * benutzt werden soll. Default ist int.
-     * <p>
-     * Int or ext storage.
      *
      * @return String mit entweder int,ext oder err
      */

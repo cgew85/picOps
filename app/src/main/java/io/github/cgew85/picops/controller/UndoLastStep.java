@@ -7,8 +7,6 @@ import android.util.Log;
 import java.io.File;
 
 public class UndoLastStep {
-    public UndoLastStep() {
-    }
 
     private ReadWriteSettings rwSettings = ReadWriteSettings.getReadWriteSettings();
     private SimpleCounterForTempFileName simpleCounter = SimpleCounterForTempFileName.getInstance();

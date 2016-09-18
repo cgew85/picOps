@@ -4,34 +4,21 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.util.Log;
 
-// TODO: Eventuell Performance verbessern
+// TODO: Increase performance
 
 /**
  * The Class Faltungsmaske.
  */
 public class Faltungsmaske {
 
-    /**
-     * The Constant SIZE.
-     */
-    public static final int SIZE = 3;
+    private static final int SIZE = 3;
+    private static final int SIZEBIG = 5;
 
-    public static final int SIZEBIG = 5;
+    public double[][] mask;
 
-    /**
-     * The Maske.
-     */
-    public double[][] Maske;
+    public double factor = 1;
 
-    /**
-     * The Factor.
-     */
-    public double Factor = 1;
-
-    /**
-     * The Offset.
-     */
-    public double Offset = 1;
+    public double offset = 1;
 
     /**
      * Instantiates a new faltungsmaske.
@@ -39,7 +26,7 @@ public class Faltungsmaske {
      * @param size the size
      */
     public Faltungsmaske(int size) {
-        Maske = new double[size][size];
+        mask = new double[size][size];
     }
 
     /**
@@ -50,7 +37,7 @@ public class Faltungsmaske {
     public void setAll(double value) {
         for (int x = 0; x < SIZE; ++x) {
             for (int y = 0; y < SIZE; ++y) {
-                Maske[x][y] = value;
+                mask[x][y] = value;
             }
         }
     }
@@ -63,7 +50,7 @@ public class Faltungsmaske {
     public void applyFaltungskonfiguration(double[][] config) {
         for (int x = 0; x < SIZE; ++x) {
             for (int y = 0; y < SIZE; ++y) {
-                Maske[x][y] = config[x][y];
+                mask[x][y] = config[x][y];
             }
         }
     }
@@ -76,7 +63,7 @@ public class Faltungsmaske {
     public void applyFaltungskonfigurationBig(double[][] config) {
         for (int x = 0; x < SIZEBIG; ++x) {
             for (int y = 0; y < SIZEBIG; ++y) {
-                Maske[x][y] = config[x][y];
+                mask[x][y] = config[x][y];
             }
         }
     }
@@ -90,7 +77,7 @@ public class Faltungsmaske {
     public void applyFaltungskonfigurationBig(double[][] config, int size) {
         for (int x = 0; x < size; ++x) {
             for (int y = 0; y < size; ++y) {
-                Maske[x][y] = config[x][y];
+                mask[x][y] = config[x][y];
             }
         }
     }
@@ -114,7 +101,7 @@ public class Faltungsmaske {
         // im Bitmap
         for (int y = 0; y < height - 2; ++y) {
             for (int x = 0; x < width - 2; ++x) {
-                // in der Maske
+                // in der mask
                 for (int i = 0; i < SIZE; ++i) {
                     for (int j = 0; j < SIZE; ++j) {
                         pixels[i][j] = bitmapIn.getPixel(x + i, y + j);
@@ -125,22 +112,22 @@ public class Faltungsmaske {
                 sumR = sumG = sumB = 0;
                 for (int i = 0; i < SIZE; ++i) {
                     for (int j = 0; j < SIZE; ++j) {
-                        sumR += (Color.red(pixels[i][j]) * faltungsmaske.Maske[i][j]);
-                        sumG += (Color.green(pixels[i][j]) * faltungsmaske.Maske[i][j]);
-                        sumB += (Color.blue(pixels[i][j]) * faltungsmaske.Maske[i][j]);
+                        sumR += (Color.red(pixels[i][j]) * faltungsmaske.mask[i][j]);
+                        sumG += (Color.green(pixels[i][j]) * faltungsmaske.mask[i][j]);
+                        sumB += (Color.blue(pixels[i][j]) * faltungsmaske.mask[i][j]);
                     }
                 }
 
                 // Endwerte der jeweiligen Farbwerte festlegen (R,G,B)
-                R = (int) (sumR / faltungsmaske.Factor + faltungsmaske.Offset);
+                R = (int) (sumR / faltungsmaske.factor + faltungsmaske.offset);
                 if (R < 0) R = 0;
                 else if (R > 255) R = 255;
 
-                G = (int) (sumG / faltungsmaske.Factor + faltungsmaske.Offset);
+                G = (int) (sumG / faltungsmaske.factor + faltungsmaske.offset);
                 if (G < 0) G = 0;
                 else if (G > 255) G = 255;
 
-                B = (int) (sumB / faltungsmaske.Factor + faltungsmaske.Offset);
+                B = (int) (sumB / faltungsmaske.factor + faltungsmaske.offset);
                 if (B < 0) B = 0;
                 else if (B > 255) B = 255;
 
@@ -171,7 +158,7 @@ public class Faltungsmaske {
         // im Bitmap
         for (int y = 0; y < height - 4; ++y) {
             for (int x = 0; x < width - 4; ++x) {
-                // in der Maske
+                // in der mask
                 for (int i = 0; i < SIZEBIG; ++i) {
                     for (int j = 0; j < SIZEBIG; ++j) {
                         pixels[i][j] = bitmapIn.getPixel(x + i, y + j);
@@ -183,22 +170,22 @@ public class Faltungsmaske {
                 // Jeweiligen Farbwerte abrufen (R,G,B)
                 for (int i = 0; i < SIZEBIG; ++i) {
                     for (int j = 0; j < SIZEBIG; ++j) {
-                        sumR += (Color.red(pixels[i][j]) * faltungsmaske.Maske[i][j]);
-                        sumG += (Color.green(pixels[i][j]) * faltungsmaske.Maske[i][j]);
-                        sumB += (Color.blue(pixels[i][j]) * faltungsmaske.Maske[i][j]);
+                        sumR += (Color.red(pixels[i][j]) * faltungsmaske.mask[i][j]);
+                        sumG += (Color.green(pixels[i][j]) * faltungsmaske.mask[i][j]);
+                        sumB += (Color.blue(pixels[i][j]) * faltungsmaske.mask[i][j]);
                     }
                 }
 
                 // Endwerte der jeweiligen Farbwerte festlegen (R,G,B)
-                R = (int) (sumR / faltungsmaske.Factor + faltungsmaske.Offset);
+                R = (int) (sumR / faltungsmaske.factor + faltungsmaske.offset);
                 if (R < 0) R = 0;
                 else if (R > 255) R = 255;
 
-                G = (int) (sumG / faltungsmaske.Factor + faltungsmaske.Offset);
+                G = (int) (sumG / faltungsmaske.factor + faltungsmaske.offset);
                 if (G < 0) G = 0;
                 else if (G > 255) G = 255;
 
-                B = (int) (sumB / faltungsmaske.Factor + faltungsmaske.Offset);
+                B = (int) (sumB / faltungsmaske.factor + faltungsmaske.offset);
                 if (B < 0) B = 0;
                 else if (B > 255) B = 255;
 
@@ -222,7 +209,7 @@ public class Faltungsmaske {
         int height = bitmapIn.getHeight();
         Bitmap bitmapOut = Bitmap.createBitmap(width, height, bitmapIn.getConfig());
 
-        int sizeOfMask = faltungsmaske.Maske.length;
+        int sizeOfMask = faltungsmaske.mask.length;
         Log.d("INFO", "@berechneFaltungMxM -> Size of Mask: " + sizeOfMask);
 
         int A, R, G, B;
@@ -232,7 +219,7 @@ public class Faltungsmaske {
         // im Bitmap
         for (int y = 0; y < height - (sizeOfMask - 1); ++y) {
             for (int x = 0; x < width - (sizeOfMask - 1); ++x) {
-                // in der Maske
+                // in der mask
                 for (int i = 0; i < sizeOfMask; ++i) {
                     for (int j = 0; j < sizeOfMask; ++j) {
                         pixels[i][j] = bitmapIn.getPixel(x + i, y + j);
@@ -244,22 +231,22 @@ public class Faltungsmaske {
                 // Jeweiligen Farbwerte abrufen (R,G,B)
                 for (int i = 0; i < sizeOfMask; ++i) {
                     for (int j = 0; j < sizeOfMask; ++j) {
-                        sumR += (Color.red(pixels[i][j]) * faltungsmaske.Maske[i][j]);
-                        sumG += (Color.green(pixels[i][j]) * faltungsmaske.Maske[i][j]);
-                        sumB += (Color.blue(pixels[i][j]) * faltungsmaske.Maske[i][j]);
+                        sumR += (Color.red(pixels[i][j]) * faltungsmaske.mask[i][j]);
+                        sumG += (Color.green(pixels[i][j]) * faltungsmaske.mask[i][j]);
+                        sumB += (Color.blue(pixels[i][j]) * faltungsmaske.mask[i][j]);
                     }
                 }
 
                 // Endwerte der jeweiligen Farbwerte festlegen (R,G,B)
-                R = (int) (sumR / faltungsmaske.Factor + faltungsmaske.Offset);
+                R = (int) (sumR / faltungsmaske.factor + faltungsmaske.offset);
                 if (R < 0) R = 0;
                 else if (R > 255) R = 255;
 
-                G = (int) (sumG / faltungsmaske.Factor + faltungsmaske.Offset);
+                G = (int) (sumG / faltungsmaske.factor + faltungsmaske.offset);
                 if (G < 0) G = 0;
                 else if (G > 255) G = 255;
 
-                B = (int) (sumB / faltungsmaske.Factor + faltungsmaske.Offset);
+                B = (int) (sumB / faltungsmaske.factor + faltungsmaske.offset);
                 if (B < 0) B = 0;
                 else if (B > 255) B = 255;
 

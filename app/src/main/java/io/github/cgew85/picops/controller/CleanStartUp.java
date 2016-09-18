@@ -5,9 +5,6 @@ import android.os.Environment;
 import java.io.File;
 
 public class CleanStartUp {
-    public CleanStartUp() {
-    }
-
     public void cleanUpOnStart() {
         String path = Environment.getExternalStorageDirectory() + "/picOps/";
         File directory = new File(path);

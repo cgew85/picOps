@@ -6,7 +6,6 @@ import android.os.Environment;
 import java.io.File;
 
 public class GetFilePath {
-    // Singleton Design
     private static GetFilePath instance = null;
 
     private GetFilePath() {
@@ -29,15 +28,15 @@ public class GetFilePath {
         // Check if the directory exists at all
         if (directory.isDirectory()) {
             // Put all filenames into an array
-            String[] tmpArray = directory.list();
+            String[] filenames = directory.list();
             // Safety check
-            if (tmpArray != null) {
-                if (tmpArray.length > 0) {
+            if (filenames != null) {
+                if (filenames.length > 0) {
                     // Browsing the array for the filename we are looking for
-                    for (int i = 0; i < tmpArray.length; i++) {
-                        if (tmpArray[i].equals(ReadWriteSettings.getReadWriteSettings().getStringSetting(context, "Session") + ".JPEG")) {
+                    for (String filename : filenames) {
+                        if (filename.equals(ReadWriteSettings.getReadWriteSettings().getStringSetting(context, "Session") + ".JPEG")) {
                             // Create a file object in order to get the absolute path
-                            file = new File(directory.getAbsolutePath().concat("/").concat(tmpArray[i]));
+                            file = new File(directory.getAbsolutePath().concat("/").concat(filename));
                             // Another security check
                             if (file.exists()) {
                                 // Getting the absolute file path
@@ -61,14 +60,14 @@ public class GetFilePath {
         // Check if the directory exists at all
         if (directory.isDirectory()) {
             // Put all filenames into an array
-            String[] tmpArray = directory.list();
+            String[] filenames = directory.list();
             // Safety check
-            if (tmpArray.length > 0 && !tmpArray.equals(null)) {
+            if (filenames.length > 0 && !filenames.equals(null)) {
                 // Browsing the array for the filename we are looking for
-                for (int i = 0; i < tmpArray.length; i++) {
-                    if (tmpArray[i].equals(ReadWriteSettings.getReadWriteSettings().getStringSetting(context, "Session") + "-" + counter + ".JPEG")) {
+                for (String filename : filenames) {
+                    if (filename.equals(ReadWriteSettings.getReadWriteSettings().getStringSetting(context, "Session") + "-" + counter + ".JPEG")) {
                         // Create a file object in order to get the absolute path
-                        file = new File(directory.getAbsolutePath().concat("/").concat(tmpArray[i]));
+                        file = new File(directory.getAbsolutePath().concat("/").concat(filename));
                         // Another security check
                         if (file.exists()) {
                             // Getting the absolute file path
@@ -80,5 +79,4 @@ public class GetFilePath {
         }
         return path;
     }
-
 }

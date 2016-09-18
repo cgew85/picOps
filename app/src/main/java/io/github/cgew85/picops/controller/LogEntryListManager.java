@@ -8,16 +8,10 @@ import java.util.List;
 
 public class LogEntryListManager {
     private static LogEntryListManager instance = null;
-    private static List<LogEntry> logEntryList = new ArrayList<LogEntry>();
-
-    private LogEntryListManager() {
-    }
+    private static List<LogEntry> logEntryList = new ArrayList<>();
 
     public static LogEntryListManager getInstance() {
-        if (instance == null) {
-            instance = new LogEntryListManager();
-        }
-
+        if (instance == null) instance = new LogEntryListManager();
         return instance;
     }
 

@@ -22,7 +22,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FilterTabActivity extends ListActivity {
-    private ArrayList<String> localListFilterNames = DoFilter.getAllFilterNames();
+    private ArrayList<String> localListFilterNames = FilterController.getAllFilterNames();
     private ArrayAdapter<String> listAdapter;
     Bitmap bitmap = null;
     private int fragmentWidth, fragmentHeight;
@@ -71,9 +71,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.imageSharpening(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 20, 20);
+                        bitmap = FilterController.imageSharpening(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 20, 20);
                     } else {
-                        bitmap = DoFilter.imageSharpening(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 20, 20);
+                        bitmap = FilterController.imageSharpening(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 20, 20);
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -115,9 +115,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.gaussianBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.gaussianBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.gaussianBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.gaussianBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -159,9 +159,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.doGreyscale(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.doGreyscale(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.doGreyscale(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.doGreyscale(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -234,9 +234,9 @@ public class FilterTabActivity extends ListActivity {
                             @Override
                             public void run() {
                                 if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                    bitmap = DoFilter.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), type, percent);
+                                    bitmap = FilterController.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), type, percent);
                                 } else {
-                                    bitmap = DoFilter.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), type, percent);
+                                    bitmap = FilterController.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), type, percent);
                                 }
                                 String directory = Environment.getExternalStorageDirectory().toString();
                                 OutputStream fos = null;
@@ -317,9 +317,9 @@ public class FilterTabActivity extends ListActivity {
                                 @Override
                                 public void run() {
                                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                        bitmap = DoFilter.glaetten(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueGlaetten);
+                                        bitmap = FilterController.glaetten(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueGlaetten);
                                     } else {
-                                        bitmap = DoFilter.glaetten(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueGlaetten);
+                                        bitmap = FilterController.glaetten(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueGlaetten);
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
@@ -389,9 +389,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.scharfzeichnen(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.scharfzeichnen(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.scharfzeichnen(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.scharfzeichnen(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -445,9 +445,9 @@ public class FilterTabActivity extends ListActivity {
                                 @Override
                                 public void run() {
                                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                        bitmap = DoFilter.createContrast(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueCreateContrast);
+                                        bitmap = FilterController.createContrast(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueCreateContrast);
                                     } else {
-                                        bitmap = DoFilter.createContrast(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueCreateContrast);
+                                        bitmap = FilterController.createContrast(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueCreateContrast);
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
@@ -529,9 +529,9 @@ public class FilterTabActivity extends ListActivity {
                                 @Override
                                 public void run() {
                                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                        bitmap = DoFilter.createContrastSW(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueCreateContrast);
+                                        bitmap = FilterController.createContrastSW(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueCreateContrast);
                                     } else {
-                                        bitmap = DoFilter.createContrastSW(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueCreateContrast);
+                                        bitmap = FilterController.createContrastSW(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueCreateContrast);
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
@@ -614,9 +614,9 @@ public class FilterTabActivity extends ListActivity {
                                 @Override
                                 public void run() {
                                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                        bitmap = DoFilter.doGamma(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueDoGamma, valueDoGamma, valueDoGamma);
+                                        bitmap = FilterController.doGamma(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueDoGamma, valueDoGamma, valueDoGamma);
                                     } else {
-                                        bitmap = DoFilter.doGamma(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueDoGamma, valueDoGamma, valueDoGamma);
+                                        bitmap = FilterController.doGamma(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueDoGamma, valueDoGamma, valueDoGamma);
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
@@ -692,9 +692,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 32);
+                                            bitmap = FilterController.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 32);
                                         } else {
-                                            bitmap = DoFilter.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 32);
+                                            bitmap = FilterController.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 32);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -736,9 +736,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 64);
+                                            bitmap = FilterController.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 64);
                                         } else {
-                                            bitmap = DoFilter.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 64);
+                                            bitmap = FilterController.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 64);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -780,9 +780,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 128);
+                                            bitmap = FilterController.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 128);
                                         } else {
-                                            bitmap = DoFilter.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 128);
+                                            bitmap = FilterController.decreaseColorDepth(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 128);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -835,9 +835,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 10);
+                                            bitmap = FilterController.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 10);
                                         } else {
-                                            bitmap = DoFilter.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 10);
+                                            bitmap = FilterController.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 10);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -879,9 +879,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), -10);
+                                            bitmap = FilterController.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), -10);
                                         } else {
-                                            bitmap = DoFilter.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), -10);
+                                            bitmap = FilterController.doBrightness(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), -10);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -934,9 +934,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 1, 0, 0);
+                                            bitmap = FilterController.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 1, 0, 0);
                                         } else {
-                                            bitmap = DoFilter.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 1, 0, 0);
+                                            bitmap = FilterController.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 1, 0, 0);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -978,9 +978,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 0, 1, 0);
+                                            bitmap = FilterController.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 0, 1, 0);
                                         } else {
-                                            bitmap = DoFilter.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 0, 1, 0);
+                                            bitmap = FilterController.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 0, 1, 0);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -1022,9 +1022,9 @@ public class FilterTabActivity extends ListActivity {
                                     @Override
                                     public void run() {
                                         if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                            bitmap = DoFilter.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 0, 0, 1);
+                                            bitmap = FilterController.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 0, 0, 1);
                                         } else {
-                                            bitmap = DoFilter.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 0, 0, 1);
+                                            bitmap = FilterController.doColorFilter(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 0, 0, 1);
                                         }
                                         String directory = Environment.getExternalStorageDirectory().toString();
                                         OutputStream fos = null;
@@ -1072,9 +1072,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.boxBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 5);
+                        bitmap = FilterController.boxBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 5);
                     } else {
-                        bitmap = DoFilter.boxBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 5);
+                        bitmap = FilterController.boxBlur(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 5);
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -1115,9 +1115,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.hardLightMode(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.hardLightMode(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.hardLightMode(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.hardLightMode(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -1158,9 +1158,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.binaryImage(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.binaryImage(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.binaryImage(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.binaryImage(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -1201,9 +1201,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.alphaBlending(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.alphaBlending(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.alphaBlending(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.alphaBlending(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -1244,9 +1244,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = DoFilter.histogrammAusgleich(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.histogrammAusgleich(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = DoFilter.histogrammAusgleich(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.histogrammAusgleich(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;

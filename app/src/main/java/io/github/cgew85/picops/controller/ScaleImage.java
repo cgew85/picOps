@@ -6,19 +6,10 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 
 /**
- * The Class ScaleImage
- * <p>
  * Bilder verkleinert in den Arbeitsspeicher laden.
  */
 
 public class ScaleImage {
-
-
-    /**
-     * Instantiates a new scale image.
-     */
-    public ScaleImage() {
-    }
 
     /**
      * Berechnet die Gr��e des Downsamplings des Bildes
@@ -29,7 +20,7 @@ public class ScaleImage {
      * @param reqHeight the req height
      * @return the int
      */
-    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         int height = options.outHeight;
         int width = options.outWidth;
         int inSampleSize = 1;
@@ -95,8 +86,7 @@ public class ScaleImage {
         Matrix matrix = new Matrix();
 
         matrix.postScale(scaleWidth, scaleHeight);
-        Bitmap resizedBitmap = Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
 
-        return resizedBitmap;
+        return Bitmap.createBitmap(bm, 0, 0, width, height, matrix, false);
     }
 }

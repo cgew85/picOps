@@ -8,23 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-/**
- * The Class CheckImageForScaling.
- */
 public class CheckImageForScaling {
-
-    /**
-     * Instantiates a new check image for scaling.
-     */
-    public CheckImageForScaling() {
-    }
 
     /**
      * Check image size and scale if size exceeds limit.
      *
      * @param picturePath the picture path
      * @return the bitmap
-     * @throws IOException Signals that an I/O exception has occurred.
      */
     public Bitmap checkImageSizeAndScale(String picturePath) {
         final int MAX_IMAGE_SIZE = 1024;

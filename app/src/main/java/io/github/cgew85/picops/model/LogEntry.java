@@ -4,9 +4,6 @@ public class LogEntry {
     private String name;
     private String values;
 
-    public LogEntry() {
-    }
-
     public LogEntry(String name, String values) {
         this.name = name;
         this.values = values;

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * Anlegen oder Ab�ndern appinterner Einstellungen.
+ * Create and edit application settings
  */
 public class ReadWriteSettings {
     private static final String SETTINGS = "LocalSettingsFile";
@@ -12,11 +12,6 @@ public class ReadWriteSettings {
     private SharedPreferences.Editor editor;
     private static ReadWriteSettings readWriteSettings = null;
 
-    /**
-     * Gets the rW settings (Singleton-Pattern).
-     *
-     * @return the rW settings
-     */
     public static synchronized ReadWriteSettings getReadWriteSettings() {
         if (readWriteSettings == null) {
             readWriteSettings = new ReadWriteSettings();
@@ -25,14 +20,6 @@ public class ReadWriteSettings {
         return readWriteSettings;
     }
 
-    /**
-     * Adds String setting, but checks if the setting isn't present already.
-     *
-     * @param context the context
-     * @param key     the key
-     * @param value   the value
-     * @return true, if successful
-     */
     public boolean addSetting(Context context, String key, String value) {
         boolean status = false;
 
@@ -46,14 +33,6 @@ public class ReadWriteSettings {
         return status;
     }
 
-    /**
-     * Adds boolean setting, but checks if the setting isn't present already.
-     *
-     * @param context the context
-     * @param key     the key
-     * @param value   the value
-     * @return true, if successful
-     */
     public boolean addSetting(Context context, String key, boolean value) {
         boolean status = false;
 
@@ -67,15 +46,8 @@ public class ReadWriteSettings {
         return status;
     }
 
-    /**
-     * Gets a String setting.
-     *
-     * @param context the context
-     * @param key     the key
-     * @return the string setting
-     */
     public String getStringSetting(Context context, String key) {
-        String retValue = "";
+        String retValue;
 
         settings = context.getSharedPreferences(SETTINGS, 0);
         retValue = settings.getString(key, "err");
@@ -83,15 +55,8 @@ public class ReadWriteSettings {
         return retValue;
     }
 
-    /**
-     * Check if setting already exists.
-     *
-     * @param context the context
-     * @param key     the key
-     * @return true, falls schon vorhanden
-     */
     public boolean checkIfSettingAlreadyExists(Context context, String key) {
-        boolean rueckgabe = false;
+        boolean rueckgabe;
 
         settings = context.getSharedPreferences(SETTINGS, 0);
         rueckgabe = settings.contains(key);
@@ -106,19 +71,18 @@ public class ReadWriteSettings {
      * @param context the context
      * @param key     the key
      * @param value   the value
-     * @return true, if successful
      */
     public void changeSetting(Context context, String key, String value) {
         settings = context.getSharedPreferences(SETTINGS, 0);
         if (settings.contains(key)) {
             editor = settings.edit();
-            /** Entfernen des vorigen Key/Value-Paares **/
+            // Entfernen des vorigen Key/Value-Paares
             editor.remove(key);
-            editor.commit();
+            editor.apply();
 
-            /** Anlegen eines neuen Key/Value-Paares **/
+            // Anlegen eines neuen Key/Value-Paares
             editor.putString(key, value);
-            editor.commit();
+            editor.apply();
         } else {
             addSetting(context, key, value);
         }
