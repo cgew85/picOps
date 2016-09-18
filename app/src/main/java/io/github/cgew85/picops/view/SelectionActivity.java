@@ -14,8 +14,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.view.Menu;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import io.github.cgew85.picops.R;
@@ -56,10 +54,6 @@ public class SelectionActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Spork.bind(this);
-
-        // Remove action and status bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         buttonOpenImage.setEnabled(false);
 
@@ -168,8 +162,8 @@ public class SelectionActivity extends Activity {
                 File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(this, "Session") + ".JPEG");
 
                 // Einsetzen der Skalierung bei zu gro�en Bitmaps
-                CheckImageForScaling mCheckImageForScaling = new CheckImageForScaling();
-                Bitmap bmp = mCheckImageForScaling.checkImageSizeAndScale(picturePath);
+                ImageScaler mImageScaler = new ImageScaler();
+                Bitmap bmp = mImageScaler.checkImageSizeAndScale(picturePath);
 
                 try {
                     fos = new FileOutputStream(file);
@@ -237,8 +231,8 @@ public class SelectionActivity extends Activity {
     }
 
     private static void scaleImageFromCamInput(String filepath) {
-        CheckImageForScaling mCheckImageForScaling = new CheckImageForScaling();
-        Bitmap localBitmap = mCheckImageForScaling.checkImageSizeAndScale(filepath);
+        ImageScaler mImageScaler = new ImageScaler();
+        Bitmap localBitmap = mImageScaler.checkImageSizeAndScale(filepath);
         File file = new File(filepath);
         file.delete();
         file = new File(filepath);

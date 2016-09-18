@@ -17,12 +17,12 @@ public class LogEntryListManager {
 
     public void addLogEntry(LogEntry entry) {
         logEntryList.add(entry);
-        Log.d("INFO", "Objekt eingefuegt");
+        Log.d("INFO", "Object added");
     }
 
     public void removeLastEntry() {
         logEntryList.remove(logEntryList.size() - 1);
-        Log.d("INFO", "Objekt entfernt");
+        Log.d("INFO", "Object removed");
     }
 
     public int getNumberOfEntries() {
@@ -31,7 +31,7 @@ public class LogEntryListManager {
 
     public void clearList() {
         logEntryList.clear();
-        Log.d("INFO", "Objektliste geleert");
+        Log.d("INFO", "Object list cleared");
     }
 
     public List<LogEntry> getList() {

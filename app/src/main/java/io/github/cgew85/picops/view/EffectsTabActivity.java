@@ -102,7 +102,7 @@ public class EffectsTabActivity extends ListActivity {
                     startActivity(intent);
                 }
             }).start();
-        } else if (s.equals("rundeEcken")) {
+        } else if (s.equals("roundCorners")) {
             ProgressDialog mDialog = new ProgressDialog(v.getContext());
             mDialog.setMessage("Please wait...");
             mDialog.setCancelable(false);
@@ -112,9 +112,9 @@ public class EffectsTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = FilterController.rundeEcken(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 90f);
+                        bitmap = FilterController.roundCorners(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), 90f);
                     } else {
-                        bitmap = FilterController.rundeEcken(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 90f);
+                        bitmap = FilterController.roundCorners(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), 90f);
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -140,7 +140,7 @@ public class EffectsTabActivity extends ListActivity {
                     counter.increaseCounter();
                     bitmap.recycle();
                     bitmap = null;
-                    addLogEntry("rundeEcken", "round:" + 90f);
+                    addLogEntry("roundCorners", "round:" + 90f);
                     System.gc();
                     Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);

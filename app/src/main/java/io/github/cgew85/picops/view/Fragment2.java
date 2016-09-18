@@ -17,8 +17,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import io.github.cgew85.picops.R;
 import io.github.cgew85.picops.controller.BitmapWorkerTask;
-import io.github.cgew85.picops.controller.CheckImageForScaling;
 import io.github.cgew85.picops.controller.FilterController;
+import io.github.cgew85.picops.controller.ImageScaler;
 import io.github.cgew85.picops.controller.ScaleImage;
 
 import java.io.*;
@@ -144,8 +144,8 @@ public class Fragment2 extends Fragment {
                 File file = new File(directory, "/picOps/img" + selection + ".JPEG");
 
                 /** Bilder skalieren **/
-                CheckImageForScaling mCheckImageForScaling = new CheckImageForScaling();
-                Bitmap bmp = mCheckImageForScaling.checkImageSizeAndScale(picturePath);
+                ImageScaler mImageScaler = new ImageScaler();
+                Bitmap bmp = mImageScaler.checkImageSizeAndScale(picturePath);
 
                 try {
                     fos = new FileOutputStream(file);

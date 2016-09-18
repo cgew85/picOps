@@ -19,9 +19,9 @@ public class UndoLastStep {
         if (directory.exists() && directory.isDirectory()) {
             Log.d("INFO", "undo @ directory");
             String[] allFileNamesInDirectory = directory.list();
-            for (int i = 0; i < allFileNamesInDirectory.length; i++) {
+            for (String fileName : allFileNamesInDirectory) {
                 Log.d("INFO", "undo @ for loop");
-                if (allFileNamesInDirectory[i].contains(filename)) {
+                if (fileName.contains(filename)) {
                     Log.d("INFO", "undo @ file found");
                     File fileToDelete = new File(directory + "/" + filename + ".JPEG");
                     Log.d("INFO", "File to delete: " + fileToDelete.getAbsolutePath());

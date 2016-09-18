@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import io.github.cgew85.picops.R;
 import io.github.cgew85.picops.controller.CleanStartUp;
@@ -37,14 +35,11 @@ public class MainActivity extends Activity {
         if (getIntent().getBooleanExtra("EXIT", false)) {
             finish();
         }
-        // Remove action and status bar
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         // Get session
         Session session = Session.getSession();
 
-        // Create SharedPreferences object **/
+        // Create SharedPreferences object
         ReadWriteSettings settings = ReadWriteSettings.getReadWriteSettings();
 
         // Save session in shared preferences
@@ -66,15 +61,15 @@ public class MainActivity extends Activity {
         }
 
         // Check for appropriate save destination
-        StorageDetails StorageDetails = new StorageDetails();
-        String storageChoice = StorageDetails.intOrExtStorage();
+        StorageDetails storageDetails = new StorageDetails();
+        String storageChoice = storageDetails.intOrExtStorage();
         Log.d("INFO", "Selection of save destination: " + storageChoice);
 
         // Create settings
-        if (storageChoice.equals("int")) {
+        if (storageChoice.equals(StorageDetails.INTERNAL_STORAGE)) {
             settings.addSetting(this, "Speicherort", "int");
             startInternalStorageSetup();
-        } else if (storageChoice.equals("ext")) {
+        } else if (storageChoice.equals(StorageDetails.EXTERNAL_STORAGE)) {
             settings.addSetting(this, "Speicherort", "ext");
             startExternalStorageSetup();
         }

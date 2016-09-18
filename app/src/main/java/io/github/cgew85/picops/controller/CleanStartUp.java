@@ -5,17 +5,22 @@ import android.os.Environment;
 import java.io.File;
 
 public class CleanStartUp {
-    public void cleanUpOnStart() {
-        String path = Environment.getExternalStorageDirectory() + "/picOps/";
+
+    private static final String DIRECTORY_PIC_OPS = "/picOps/";
+    private static final String NO_MEDIA = ".nomedia";
+
+    public boolean cleanUpOnStart() {
+        final String path = Environment.getExternalStorageDirectory() + DIRECTORY_PIC_OPS;
         File directory = new File(path);
 
         if (directory.listFiles() != null) {
             for (File file : directory.listFiles()) {
-                if (!(file.getName().equals(".nomedia"))) {
-                    file.delete();
+                if (!(file.getName().equals(NO_MEDIA))) {
+                    return file.delete();
                 }
-
             }
         }
+
+        return false;
     }
 }

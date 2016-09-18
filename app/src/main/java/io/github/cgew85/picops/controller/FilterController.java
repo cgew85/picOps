@@ -52,9 +52,9 @@ public class FilterController {
         ArrayList<String> allFilterNames = new ArrayList<>();
 
         allFilterNames.add("verstaerkenFarbtyp");
-        allFilterNames.add("glaetten");
+        allFilterNames.add("smoothing");
         allFilterNames.add("imageSharpening");
-        allFilterNames.add("scharfzeichnen");
+        allFilterNames.add("sharpening");
         allFilterNames.add("gaussianBlur");
         allFilterNames.add("doGreyscale");
         allFilterNames.add("createContrast");
@@ -77,7 +77,7 @@ public class FilterController {
 
         allEffectNames.add("bildSpiegelungVertikal");
         allEffectNames.add("bildSpiegelung");
-        allEffectNames.add("rundeEcken");
+        allEffectNames.add("roundCorners");
         allEffectNames.add("createSepiaToningEffect");
         allEffectNames.add("rotateImage");
         allEffectNames.add("addBorder");
@@ -123,12 +123,7 @@ public class FilterController {
     }
 
     /**
-     * Effekt
-     * blend2images
-     *
-     * @param bitmapIn1 Eingangsbitmap1
-     * @param bitmapIn2 Eingangsbitmap2
-     * @return Ausgabebitmap
+     * Blends two images into one
      */
     public static Bitmap blend2Images(Bitmap bitmapIn1, Bitmap bitmapIn2) {
         Canvas canvas = new Canvas();
@@ -144,7 +139,7 @@ public class FilterController {
 
         float factor = outputWidth / outputHeight;
 
-        // factor  ->  Aspect Ratio
+        // factor  ->  aspect ratio
         if (factor > 1) {
             if ((outputWidth > 640) || (outputHeight > 480)) {
                 outputWidth = 640;
@@ -161,7 +156,6 @@ public class FilterController {
                 outputHeight = 640;
             }
         }
-        // End aspect ratio
 
         // catch impossible values
         if ((outputWidth > 640) || (outputHeight > 640)) {
@@ -226,11 +220,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
-     * Histogrammausgleich
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
+     * Histogram equalizer
      */
     private static ArrayList<int[]> createHistogram(Bitmap bitmapIn) {
         int[] redHistogram = new int[256];
@@ -267,7 +257,7 @@ public class FilterController {
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
         ArrayList<int[]> histogramFromBitmapIn = createHistogram(bitmapIn);
-        ArrayList<int[]> localLookUpTable = new ArrayList<int[]>();
+        ArrayList<int[]> localLookUpTable = new ArrayList<>();
 
         int[] redHistogram = new int[256];
         int[] greenHistogram = new int[256];
@@ -282,11 +272,11 @@ public class FilterController {
         long sumG = 0;
         long sumB = 0;
 
-        float skalierung = (float) (255.0 / (width * height));
+        float scaling = (float) (255.0 / (width * height));
 
         for (int i = 0; i < redHistogram.length; i++) {
             sumR += histogramFromBitmapIn.get(0)[i];
-            int red = (int) (sumR * skalierung);
+            int red = (int) (sumR * scaling);
             if (red > 255) {
                 redHistogram[i] = 255;
             } else {
@@ -294,7 +284,7 @@ public class FilterController {
             }
 
             sumG += histogramFromBitmapIn.get(1)[i];
-            int green = (int) (sumG * skalierung);
+            int green = (int) (sumG * scaling);
             if (green > 255) {
                 greenHistogram[i] = 255;
             } else {
@@ -302,7 +292,7 @@ public class FilterController {
             }
 
             sumB += histogramFromBitmapIn.get(2)[i];
-            int blue = (int) (sumB * skalierung);
+            int blue = (int) (sumB * scaling);
             if (blue > 255) {
                 blueHistogram[i] = 255;
             } else {
@@ -319,7 +309,7 @@ public class FilterController {
 
     public static Bitmap histogrammAusgleich(Bitmap bitmapIn) {
         int red, green, blue, alpha;
-        int pixel = 0;
+        int pixel;
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
 
@@ -347,11 +337,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Alpha blending
-     *
-     * @return Ausgabebitmap
-     * @params bitmapIn Eingangsbitmap
      */
     public static Bitmap alphaBlending(Bitmap bitmapIn) {
         int width = bitmapIn.getWidth();
@@ -368,7 +354,7 @@ public class FilterController {
                 pixel = bitmapAlpha.getPixel(x, y);
                 alpha = Color.alpha(pixel);
                 alpha /= 2;
-                pixel = Color.argb((int) alpha, Color.red(pixel), Color.green(pixel), Color.blue(pixel));
+                pixel = Color.argb(alpha, Color.red(pixel), Color.green(pixel), Color.blue(pixel));
                 bitmapAlpha.setPixel(x, y, pixel);
             }
         }
@@ -396,12 +382,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
-     * boxBlur
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @param range    Radius
-     * @return Ausgabebitmap
+     * Box blur
      */
     public static Bitmap boxBlur(Bitmap bitmapIn, int range) {
         Bitmap bitmapOut = Bitmap.createBitmap(bitmapIn.getWidth(), bitmapIn.getHeight(), Config.ARGB_8888);
@@ -508,17 +489,12 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Hard light mode
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
      */
     public static Bitmap hardLightMode(Bitmap bitmapIn) {
         Bitmap bitmapOut = Bitmap.createBitmap(bitmapIn);
         int pixel, red, green, blue;
         double grey;
-        Color color = new Color();
 
         bitmapOut = FilterController.doGreyscale(bitmapIn);
         for (int x = 0; x < bitmapOut.getWidth(); x++) {
@@ -528,9 +504,8 @@ public class FilterController {
                 green = Color.green(pixel);
                 blue = Color.blue(pixel);
                 grey = ((red * 0.3f) + (green * 0.59f) + (blue * 0.11f));
-                //Log.d("INFO", "Value grey = "+grey+" Value hardLight: "+hardLightLayer(grey,grey));
                 red = green = blue = (int) hardLightLayer(grey, grey);
-                bitmapOut.setPixel(x, y, color.argb(0xFF, red, green, blue));
+                bitmapOut.setPixel(x, y, Color.argb(0xFF, red, green, blue));
             }
         }
         return bitmapOut;
@@ -545,11 +520,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
-     * Bin�rbild
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
+     * Binary image
      */
     public static Bitmap binaryImage(Bitmap bitmapIn) {
         Bitmap bitmapOut = FilterController.doGreyscale(bitmapIn);
@@ -583,11 +554,7 @@ public class FilterController {
     }
 
     /**
-     * Effekt
-     * Bild mit Reflexion unterhalb.
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
+     * Image with reflection at the bottom.
      */
     public static Bitmap bildSpiegelungVertikal(Bitmap bitmapIn) {
         // Luecke zwischen Bild und Spiegelung
@@ -628,12 +595,7 @@ public class FilterController {
     }
 
     /**
-     * Effekt
      * Spiegelung eines Bildes.
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @param type     1 oder 2 f�r vert. oder horiz. Spiegelung
-     * @return Ausgabebitmap
      */
     public static Bitmap bildSpiegelung(Bitmap bitmapIn, int type) {
         Matrix matrix = new Matrix();
@@ -650,14 +612,9 @@ public class FilterController {
     }
 
     /**
-     * Effekt
      * Ecken abrunden.
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @param round    Rundungsgrad (45)
-     * @return Ausgabebitmap
      */
-    public static Bitmap rundeEcken(Bitmap bitmapIn, float round) {
+    public static Bitmap roundCorners(Bitmap bitmapIn, float round) {
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
         Bitmap bitmapOut = Bitmap.createBitmap(width, height, bitmapIn.getConfig());
@@ -683,13 +640,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Farbkanal verst�rken.
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @param type     Farbkanal (1 = Rot, 2 = Gr�n, 3 = Blau)
-     * @param percent  Grad der Verst�rkung (10% Schritten)
-     * @return Ausgabebitmap
      */
     public static Bitmap verstaerkenFarbtyp(Bitmap bitmapIn, int type, float percent) {
         int width = bitmapIn.getWidth();
@@ -727,14 +678,9 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Glaetten des Bildes durch Mittelwertbildung
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @param value    Wert der Gl�ttung
-     * @return Ausgabebitmap
      */
-    public static Bitmap glaetten(Bitmap bitmapIn, int value) {
+    public static Bitmap smoothing(Bitmap bitmapIn, int value) {
         Faltungsmaske faltungsmaske = new Faltungsmaske(value);
         faltungsmaske.setAll(1);
         //faltungsmaske.mask[1][1] = value;
@@ -745,11 +691,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Glaetten des Bildes durch Mittelwertbildung
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
      */
     static Bitmap glaettenFuerExport(Bitmap bitmapIn, int oldSizeOfMask, int prevWidth, int prevHeight, int curWidth, int curHeight) {
         /** Value: Quadratische mask mit value x value als Dimensionen **/
@@ -764,7 +706,7 @@ public class FilterController {
     }
 
     private static int adjustSizeForMask(int oldSizeOfMask, int prevWidth, int prevHeight, int curWidth, int curHeight) {
-        int newSizeMask = 0;
+        int newSizeMask;
 
         int prevPixels = prevWidth * prevHeight;
         int oldMaskPixels = oldSizeOfMask * oldSizeOfMask;
@@ -778,11 +720,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Reduziert Unsch�rfe durch unscharfes Maskieren
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
      */
     public static Bitmap imageSharpening(Bitmap bitmapIn, int boxWidth, int boxHeight) {
         int width = bitmapIn.getWidth();
@@ -854,10 +792,8 @@ public class FilterController {
 
     private static void applyUnsharpMask(Bitmap bitmapIn, int[][] sourcePixels, int[][] blurredPixels, int left, int top, int right, int bottom, float amount, int threshold) {
         int oRed, oGreen, oBlue;
-        oRed = oGreen = oBlue = 0;
         int bRed, bGreen, bBlue;
-        bRed = bGreen = bBlue = 0;
-        int unsharpMaskPixel = 0;
+        int unsharpMaskPixel;
 
         for (int x = left; x < right; x++) {
             for (int y = top; y < bottom; y++) {
@@ -893,13 +829,9 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Scharfzeichnungsfilter.
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
      */
-    public static Bitmap scharfzeichnen(Bitmap bitmapIn) {
+    public static Bitmap sharpening(Bitmap bitmapIn) {
         double[][] scharfzeichnerConfig = new double[][]
                 {
                         {0, -1, 0},
@@ -915,11 +847,7 @@ public class FilterController {
     }
 
     /**
-     * Filter
-     * Gau�'scher Weichzeichner.
-     *
-     * @param bitmapIn Eingangsbitmap
-     * @return Ausgabebitmap
+     * Gaussian blur
      */
     public static Bitmap gaussianBlur(Bitmap bitmapIn) {
         double[][] FaltungsmaskeGaussianBlur = new double[][]
@@ -961,7 +889,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Gau�'scher Weichzeichner mit flexiblem Input
      *
      * @param bitmapIn     Eingangsbitmap
@@ -983,14 +910,9 @@ public class FilterController {
     }
 
     /**
-     * Filter
-     * Umwandlung eines Eingangsbitmaps in ein Graustufenbild.
-     *
-     * @param bitmapIn Das Ursprungsbitmap
-     * @return Das nach Graustufen umgewandelte Ursprungsbitmap
+     * Greyscale
      */
     public static Bitmap doGreyscale(Bitmap bitmapIn) {
-        // Ausgabebitmap erzeugen
         Bitmap bitmapOut = Bitmap.createBitmap(bitmapIn.getWidth(), bitmapIn.getHeight(), bitmapIn.getConfig());
 
 		/* Konstante Faktoren zur Berechnung der Graustufen
@@ -1011,7 +933,7 @@ public class FilterController {
         for (int x = 0; x < width; ++x) {
             for (int y = 0; y < height; ++y) {
                 pixel = bitmapIn.getPixel(x, y);
-                // Holte Informationen zu den jeweiligen Kan�len
+                // Holt Informationen zu den jeweiligen Kan�len
                 A = Color.alpha(pixel);
                 R = Color.red(pixel);
                 G = Color.green(pixel);
@@ -1026,7 +948,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Kontrastfilter.
      *
      * @param bitmapIn Eingangsbitmap
@@ -1070,7 +991,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Kontrastfilter(SW).
      *
      * @param bitmapIn Eingangsbitmap
@@ -1114,7 +1034,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Gamma-Korrektur.
      *
      * @param bitmapIn Das Ursprungsbitmap
@@ -1124,17 +1043,14 @@ public class FilterController {
      * @return Das gammakorrigierte Ausgabebild
      */
     public static Bitmap doGamma(Bitmap bitmapIn, double red, double green, double blue) {
-        // Ausgabebitmap erzeugen
         Bitmap bitmapOut = Bitmap.createBitmap(bitmapIn.getWidth(), bitmapIn.getHeight(), bitmapIn.getConfig());
 
-        // Bildgr��e
         int width = bitmapIn.getWidth();
         int height = bitmapIn.getHeight();
 
         int A, R, G, B;
         int pixel;
 
-        // Konstanten
         final int MAX_SIZE = 256;
         final double MAX_VALUE_DBL = 255.0;
         final int MAX_VALUE_INT = 255;
@@ -1145,9 +1061,9 @@ public class FilterController {
         int[] gammaB = new int[MAX_SIZE];
 
         for (int i = 0; i < MAX_SIZE; ++i) {
-            gammaR[i] = (int) Math.min(MAX_VALUE_INT, (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / red)) + 0.5));
-            gammaG[i] = (int) Math.min(MAX_VALUE_INT, (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / green)) + 0.5));
-            gammaB[i] = (int) Math.min(MAX_VALUE_INT, (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / blue)) + 0.5));
+            gammaR[i] = Math.min(MAX_VALUE_INT, (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / red)) + 0.5));
+            gammaG[i] = Math.min(MAX_VALUE_INT, (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / green)) + 0.5));
+            gammaB[i] = Math.min(MAX_VALUE_INT, (int) ((MAX_VALUE_DBL * Math.pow(i / MAX_VALUE_DBL, REVERSE / blue)) + 0.5));
         }
 
         for (int x = 0; x < width; ++x) {
@@ -1168,7 +1084,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Verringern der Farbtiefe.
      *
      * @param bitmapIn  Eingangsbitmap
@@ -1215,7 +1130,6 @@ public class FilterController {
     }
 
     /**
-     * Effekt
      * Sepia-Effekt.
      *
      * @param bitmapIn  Eingangsbitmap
@@ -1258,7 +1172,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Helligkeit anpassen.
      *
      * @param bitmapIn Eingangsbitmap
@@ -1302,7 +1215,6 @@ public class FilterController {
     }
 
     /**
-     * Effekt
      * Bilddrehung.
      *
      * @param bitmapIn Eingangsbitmap
@@ -1317,7 +1229,6 @@ public class FilterController {
     }
 
     /**
-     * Filter
      * Farbfilter.
      *
      * @param bitmapIn Eingangsbitmap

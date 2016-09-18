@@ -6,23 +6,23 @@ import android.os.Environment;
 import java.io.File;
 
 public class GetFilePath {
+    private static final String DIRECTORY_PIC_OPS = "/picOps/";
+    private static final String EMPTY_STRING = "";
     private static GetFilePath instance = null;
 
     private GetFilePath() {
     }
 
     public static GetFilePath getInstance() {
-        if (instance == null)
-            instance = new GetFilePath();
-
+        if (instance == null) instance = new GetFilePath();
         return instance;
     }
 
     public String returnAbsoluteFilePath(Context context) {
-        String path = "";
+        String path = EMPTY_STRING;
 
         // Aiming for a directory in your ExternalStorage, in this case /picOps/
-        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath().concat("/picOps/"));
+        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath().concat(DIRECTORY_PIC_OPS));
         // The file you want the file path from
         File file;
         // Check if the directory exists at all
@@ -51,10 +51,10 @@ public class GetFilePath {
     }
 
     public String returnAbsoluteFilePathWorkingCopy(Context context, int counter) {
-        String path = "";
+        String path = EMPTY_STRING;
 
         // Aiming for a directory in your ExternalStorage, in this case /picOps/
-        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath().concat("/picOps/"));
+        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath().concat(DIRECTORY_PIC_OPS));
         // The file you want the file path from
         File file;
         // Check if the directory exists at all

@@ -193,109 +193,111 @@ public class FilterTabActivity extends ListActivity {
                     startActivity(intent);
                 }
             }).start();
-        } else if (s.equals("verstaerkenFarbtyp")) {
-            LayoutInflater inflater = FilterTabActivity.this.getLayoutInflater();
-            View view = inflater.inflate(R.layout.dialog_verstaerken_farbtyp, null);
-            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-            final RadioButton rbRed = (RadioButton) view.findViewById(R.id.radioButton1);
-            final RadioButton rbGreen = (RadioButton) view.findViewById(R.id.radioButton2);
-            final RadioButton rbBlue = (RadioButton) view.findViewById(R.id.radioButton3);
-            final SeekBar seekbar = (SeekBar) view.findViewById(R.id.seekbar1);
-            final TextView textProgress = (TextView) view.findViewById(R.id.textViewProgress);
-            builder.setView(view.findViewById(R.layout.dialog_verstaerken_farbtyp)).setView(view).setPositiveButton("Accept", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-                    if (!rbRed.isChecked() && !rbGreen.isChecked() && !rbBlue.isChecked()) {
-                        Toast.makeText(v.getContext(), "You must select at least one color", Toast.LENGTH_LONG).show();
-                    } else {
-                        //percent = (seekbar.getProgress())/100;
-                        percent = seekbar.getProgress();
-                        if (percent != 0) {
-                            percent = 1;
-                        } else {
-                            percent /= 100;
-                        }
-                        if (rbRed.isChecked()) {
-                            type = 1;
-                        } else if (rbGreen.isChecked()) {
-                            type = 2;
-                        } else if (rbBlue.isChecked()) {
-                            type = 3;
-                        }
-
-                        ProgressDialog mDialog = new ProgressDialog(v.getContext());
-                        mDialog.setMessage("Please wait...");
-                        mDialog.setCancelable(false);
-                        mDialog.show();
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                    bitmap = FilterController.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), type, percent);
-                                } else {
-                                    bitmap = FilterController.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), type, percent);
-                                }
-                                String directory = Environment.getExternalStorageDirectory().toString();
-                                OutputStream fos = null;
-                                File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
-                                try {
-                                    fos = new FileOutputStream(file);
-                                    BufferedOutputStream bos = new BufferedOutputStream(fos);
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
-
-                                    try {
-                                        bos.flush();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                    try {
-                                        bos.close();
-                                    } catch (IOException e) {
-                                        e.printStackTrace();
-                                    }
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                }
-                                counter.increaseCounter();
-                                bitmap.recycle();
-                                bitmap = null;
-                                addLogEntry("verstaerkenFarbtyp", "type:" + type + ";percent:" + percent);
-                                System.gc();
-                                Intent intent = new Intent(v.getContext(), EditingActivity.class);
-                                startActivity(intent);
-                            }
-                        }).start();
-                    }
-                }
-            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
-
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    textProgress.setText("Selected value: " + progress);
-                }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                }
-
-            });
-            Dialog dialog = builder.create();
-            dialog.show();
-        } else if (s.equals("glaetten")) {
+        }
+//        else if (s.equals("verstaerkenFarbtyp")) {
+//            LayoutInflater inflater = FilterTabActivity.this.getLayoutInflater();
+//            View view = inflater.inflate(R.layout.dialog_verstaerken_farbtyp, null);
+//            AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+//            final RadioButton rbRed = (RadioButton) view.findViewById(R.id.radioButton1);
+//            final RadioButton rbGreen = (RadioButton) view.findViewById(R.id.radioButton2);
+//            final RadioButton rbBlue = (RadioButton) view.findViewById(R.id.radioButton3);
+//            final SeekBar seekbar = (SeekBar) view.findViewById(R.id.seekbar1);
+//            final TextView textProgress = (TextView) view.findViewById(R.id.textViewProgress);
+//            builder.setView(view.findViewById(R.layout.dialog_verstaerken_farbtyp)).setView(view).setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+//
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//
+//                    if (!rbRed.isChecked() && !rbGreen.isChecked() && !rbBlue.isChecked()) {
+//                        Toast.makeText(v.getContext(), "You must select at least one color", Toast.LENGTH_LONG).show();
+//                    } else {
+//                        //percent = (seekbar.getProgress())/100;
+//                        percent = seekbar.getProgress();
+//                        if (percent != 0) {
+//                            percent = 1;
+//                        } else {
+//                            percent /= 100;
+//                        }
+//                        if (rbRed.isChecked()) {
+//                            type = 1;
+//                        } else if (rbGreen.isChecked()) {
+//                            type = 2;
+//                        } else if (rbBlue.isChecked()) {
+//                            type = 3;
+//                        }
+//
+//                        ProgressDialog mDialog = new ProgressDialog(v.getContext());
+//                        mDialog.setMessage("Please wait...");
+//                        mDialog.setCancelable(false);
+//                        mDialog.show();
+//
+//                        new Thread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
+//                                    bitmap = FilterController.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), type, percent);
+//                                } else {
+//                                    bitmap = FilterController.verstaerkenFarbtyp(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), type, percent);
+//                                }
+//                                String directory = Environment.getExternalStorageDirectory().toString();
+//                                OutputStream fos = null;
+//                                File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(v.getContext(), "Session") + "-" + counter.getCounter() + ".JPEG");
+//                                try {
+//                                    fos = new FileOutputStream(file);
+//                                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+//                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+//
+//                                    try {
+//                                        bos.flush();
+//                                    } catch (IOException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                    try {
+//                                        bos.close();
+//                                    } catch (IOException e) {
+//                                        e.printStackTrace();
+//                                    }
+//                                } catch (FileNotFoundException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                counter.increaseCounter();
+//                                bitmap.recycle();
+//                                bitmap = null;
+//                                addLogEntry("verstaerkenFarbtyp", "type:" + type + ";percent:" + percent);
+//                                System.gc();
+//                                Intent intent = new Intent(v.getContext(), EditingActivity.class);
+//                                startActivity(intent);
+//                            }
+//                        }).start();
+//                    }
+//                }
+//            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    dialog.cancel();
+//                }
+//            });
+//            seekbar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
+//
+//                @Override
+//                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+//                    textProgress.setText("Selected value: " + progress);
+//                }
+//
+//                @Override
+//                public void onStartTrackingTouch(SeekBar seekBar) {
+//                }
+//
+//                @Override
+//                public void onStopTrackingTouch(SeekBar seekBar) {
+//                }
+//
+//            });
+//            Dialog dialog = builder.create();
+//            dialog.show();
+//        }
+        else if (s.equals("smoothing")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
             LayoutInflater inflater = FilterTabActivity.this.getLayoutInflater();
             View view = inflater.inflate(R.layout.dialog_glaetten, null);
@@ -317,9 +319,9 @@ public class FilterTabActivity extends ListActivity {
                                 @Override
                                 public void run() {
                                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                                        bitmap = FilterController.glaetten(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueGlaetten);
+                                        bitmap = FilterController.smoothing(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight), valueGlaetten);
                                     } else {
-                                        bitmap = FilterController.glaetten(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueGlaetten);
+                                        bitmap = FilterController.smoothing(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight), valueGlaetten);
                                     }
                                     String directory = Environment.getExternalStorageDirectory().toString();
                                     OutputStream fos = null;
@@ -345,7 +347,7 @@ public class FilterTabActivity extends ListActivity {
                                     counter.increaseCounter();
                                     bitmap.recycle();
                                     bitmap = null;
-                                    addLogEntry("glaetten", "value:" + valueGlaetten + ";fragmentWidth:" + fragmentWidth + ";fragmentHeight:" + fragmentHeight);
+                                    addLogEntry("smoothing", "value:" + valueGlaetten + ";fragmentWidth:" + fragmentWidth + ";fragmentHeight:" + fragmentHeight);
                                     System.gc();
                                     Intent intent = new Intent(v.getContext(), EditingActivity.class);
                                     startActivity(intent);
@@ -379,7 +381,7 @@ public class FilterTabActivity extends ListActivity {
 
             Dialog dialog = builder.create();
             dialog.show();
-        } else if (s.equals("scharfzeichnen")) {
+        } else if (s.equals("sharpening")) {
             ProgressDialog mDialog = new ProgressDialog(v.getContext());
             mDialog.setMessage("Please wait...");
             mDialog.setCancelable(false);
@@ -389,9 +391,9 @@ public class FilterTabActivity extends ListActivity {
                 @Override
                 public void run() {
                     if (GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), 0).equals("")) {
-                        bitmap = FilterController.scharfzeichnen(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.sharpening(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePath(v.getContext()), fragmentWidth, fragmentHeight));
                     } else {
-                        bitmap = FilterController.scharfzeichnen(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
+                        bitmap = FilterController.sharpening(ScaleImage.decodeSampledBitmapFromResource(GetFilePath.getInstance().returnAbsoluteFilePathWorkingCopy(v.getContext(), counter.getCounter() - 1), fragmentWidth, fragmentHeight));
                     }
                     String directory = Environment.getExternalStorageDirectory().toString();
                     OutputStream fos = null;
@@ -417,7 +419,7 @@ public class FilterTabActivity extends ListActivity {
                     counter.increaseCounter();
                     bitmap.recycle();
                     bitmap = null;
-                    addLogEntry("scharfzeichnen", "");
+                    addLogEntry("sharpening", "");
                     System.gc();
                     Intent intent = new Intent(v.getContext(), EditingActivity.class);
                     startActivity(intent);

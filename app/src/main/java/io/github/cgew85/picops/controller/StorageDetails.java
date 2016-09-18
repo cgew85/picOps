@@ -6,53 +6,34 @@ import android.util.Log;
 
 import java.io.File;
 
-
-/**
- * Dient zum W�hlen eines geeigneten Speichers
- * f�r den Arbeitsprozess.
- * <p>
- * Pr�ft, ob externer Speicher vorhanden ist und
- * <p>
- * �berpr�ft dann, welcher Speicher gr��er ist.
- * <p>
- * R�ckgabe erfolgt als String, mit entweder
- * "ext","int", oder "err" als m�gliche
- * R�ckgaben.
- */
-
 public class StorageDetails {
 
+    public static final String EXTERNAL_STORAGE = "ext";
+    public static final String INTERNAL_STORAGE = "int";
+    public static final String ERROR = "err";
+    private static final String EMPTY_STRING = "";
+
     /**
-     * Pr�ft, welcher Speicher vorhanden ist und
-     * benutzt werden soll. Default ist int.
-     *
-     * @return String mit entweder int,ext oder err
+     * Checks which storage should be used.
+     * @return String with either int,ext or err
      */
     public String intOrExtStorage() {
-        String rueckgabe = "";
+        String returnValue = EMPTY_STRING;
 
-        // Check, ob external storage vorhanden ist
-        boolean mExternalStorageAvailable = false;
-        boolean mExternalStorageWriteable = false;
+        // Check for external storage
+        boolean externalStorageAvailable;
         String state = Environment.getExternalStorageState();
 
-        if (Environment.MEDIA_MOUNTED.equals(state)) {
-            mExternalStorageAvailable = mExternalStorageWriteable = true;
-        } else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-            mExternalStorageAvailable = true;
-            mExternalStorageWriteable = false;
-        } else {
-            mExternalStorageAvailable = mExternalStorageWriteable = false;
-        }
-        // Check Ende
+        externalStorageAvailable = Environment.MEDIA_MOUNTED.equals(state) || Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
+        // End of checking
 
-        long availableInternalStorage = 0;
+        long availableInternalStorage;
         long availableExternalStorage = 0;
 
-        String availableExternalStorageOutput = "";
-        String availableInternalStorageOutput = "";
+        String availableExternalStorageOutput = EMPTY_STRING;
+        String availableInternalStorageOutput;
 
-        if (mExternalStorageAvailable = true) {
+        if (externalStorageAvailable) {
             availableExternalStorage = getAvailableExternalMemorySize();
             availableExternalStorageOutput = formatSize(availableExternalStorage);
         }
@@ -60,24 +41,24 @@ public class StorageDetails {
         availableInternalStorage = getAvailableInternalMemorySize();
         availableInternalStorageOutput = formatSize(availableInternalStorage);
 
-        Log.d("INFO", "Speicher (intern): " + availableInternalStorageOutput);
-        Log.d("INFO", "Speicher (extern): " + availableExternalStorageOutput);
+        Log.d("INFO", "Storage (internal): " + availableInternalStorageOutput);
+        Log.d("INFO", "Storage (external): " + availableExternalStorageOutput);
 
         if (availableInternalStorage > availableExternalStorage) {
-            rueckgabe = "int";
+            returnValue = INTERNAL_STORAGE;
         } else if (availableExternalStorage > availableInternalStorage) {
-            rueckgabe = "ext";
+            returnValue = EXTERNAL_STORAGE;
         } else if (availableExternalStorage == availableInternalStorage) {
-            if (availableInternalStorage == 0 && availableExternalStorage == 0) {
-                rueckgabe = "err";
+            if (availableInternalStorage == 0) {
+                returnValue = ERROR;
             }
         }
 
-        return rueckgabe;
+        return returnValue;
     }
 
     /**
-     * Gibt vorhandenen freien internen Speicher aus.
+     * Reads empty internal storage size.
      *
      * @return the available internal memory size
      */
@@ -91,7 +72,7 @@ public class StorageDetails {
     }
 
     /**
-     * Gibt vorhandenen freien externen Speicher aus.
+     * Reads empty external storage size.
      *
      * @return the available external memory size
      */
@@ -105,12 +86,12 @@ public class StorageDetails {
     }
 
     /**
-     * Formatierung der Ergebnisse von oben.
+     * Format output of the above methods
      *
      * @param size the size
      * @return Stringobjekt mit Gr��enangabe
      */
-    private static String formatSize(long size) {
+    private String formatSize(long size) {
         String suffix = null;
 
         if (size >= 1024) {
@@ -121,18 +102,14 @@ public class StorageDetails {
                 size /= 1024;
             }
         }
-
         StringBuilder resultBuffer = new StringBuilder(Long.toString(size));
-
         int commaOffset = resultBuffer.length() - 3;
         while (commaOffset > 0) {
             resultBuffer.insert(commaOffset, ',');
             commaOffset -= 3;
         }
 
-        if (suffix != null) {
-            resultBuffer.append(suffix);
-        }
+        if (suffix != null) resultBuffer.append(suffix);
 
         return resultBuffer.toString();
     }

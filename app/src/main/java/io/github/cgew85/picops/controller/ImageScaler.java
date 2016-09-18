@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class CheckImageForScaling {
+public class ImageScaler {
 
     /**
      * Check image size and scale if size exceeds limit.
@@ -55,7 +55,7 @@ public class CheckImageForScaling {
             //...
         }
 
-        Log.d("INFO", "@checkImageSizeAndScale -> New Size: width: " + bitmapOut.getWidth() + " height: " + bitmapOut.getHeight());
+//        Log.d("INFO", "@checkImageSizeAndScale -> New Size: width: " + bitmapOut.getWidth() + " height: " + bitmapOut.getHeight());
         return bitmapOut;
     }
 }
