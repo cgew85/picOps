@@ -1,6 +1,7 @@
 package io.github.cgew85.picops.view;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,18 +11,28 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import io.github.cgew85.picops.R;
 import io.github.cgew85.picops.controller.BitmapWorkerTask;
 import io.github.cgew85.picops.controller.FilterController;
-import io.github.cgew85.picops.controller.ImageScaler;
+import io.github.cgew85.picops.controller.ImageScalingController;
 import io.github.cgew85.picops.controller.ScaleImage;
-
-import java.io.*;
 
 public class Fragment2 extends Fragment {
     private static final int RESULT_LOAD_IMAGE = 2;
@@ -140,12 +151,12 @@ public class Fragment2 extends Fragment {
                 File directoryOnExternalDevice = new File(directory + "/picOps/");
                 directoryOnExternalDevice.mkdirs();
                 OutputStream fos = null;
-                //File file = new File(directory,"/picOps/"+ReadWriteSettings.getReadWriteSettings().getStringSetting(this, "Session")+".JPEG");
+                //File file = new File(directory,"/picOps/"+SettingsController.getReadWriteSettings().getStringSetting(this, "Session")+".JPEG");
                 File file = new File(directory, "/picOps/img" + selection + ".JPEG");
 
                 /** Bilder skalieren **/
-                ImageScaler mImageScaler = new ImageScaler();
-                Bitmap bmp = mImageScaler.checkImageSizeAndScale(picturePath);
+                ImageScalingController mImageScalingController = new ImageScalingController();
+                Bitmap bmp = mImageScalingController.checkImageSizeAndScale(picturePath);
 
                 try {
                     fos = new FileOutputStream(file);

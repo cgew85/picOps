@@ -6,7 +6,7 @@ import android.util.Log;
 
 import java.io.File;
 
-public class StorageDetails {
+public class StorageDetailsController {
 
     public static final String EXTERNAL_STORAGE = "ext";
     public static final String INTERNAL_STORAGE = "int";

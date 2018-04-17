@@ -16,15 +16,25 @@ import android.view.HapticFeedbackConstants;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.ImageView;
-import io.github.cgew85.picops.R;
-import io.github.cgew85.picops.controller.*;
-import io.github.cgew85.picops.model.Device;
-import io.github.sporklibrary.Spork;
-import io.github.sporklibrary.android.annotations.BindClick;
-import io.github.sporklibrary.android.annotations.BindLayout;
-import io.github.sporklibrary.android.annotations.BindView;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.BitmapWorkerTask;
+import io.github.cgew85.picops.controller.FileHandlingController;
+import io.github.cgew85.picops.controller.ImageScalingController;
+import io.github.cgew85.picops.controller.SettingsController;
+import io.github.cgew85.picops.controller.SimpleCounterForTempFileName;
+import io.github.cgew85.picops.model.Device;
+import spork.Spork;
+import spork.android.BindClick;
+import spork.android.BindLayout;
+import spork.android.BindView;
 
 @BindLayout(R.layout.activity_pixel)
 public class SelectionActivity extends Activity {
@@ -42,8 +52,6 @@ public class SelectionActivity extends Activity {
 
     @BindView(R.id.btnOpenImage)
     private Button buttonOpenImage;
-
-    private ImageView imageViewSmall;
 
     @BindView(R.id.btnMultiPictureEditing)
     private Button buttonMultiImageEditing;
@@ -107,7 +115,7 @@ public class SelectionActivity extends Activity {
     }
 
     private void startCamera() {
-        File file = new File(Environment.getExternalStorageDirectory() + "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(this, "Session") + ".JPEG");
+        File file = new File(Environment.getExternalStorageDirectory() + "/picOps/" + SettingsController.getReadWriteSettings(this).getStringSetting("Session") + ".JPEG");
         outputFileUri = Uri.fromFile(file);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
@@ -129,11 +137,12 @@ public class SelectionActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         // if-branch f�r Kamera-Input
+        ImageView imageViewSmall;
         if (requestCode == IMAGE_CAPTURE) {
             if (resultCode == RESULT_OK) {
                 imageViewSmall = (ImageView) findViewById(R.id.smallImagePreview);
-                scaleImageFromCamInput(GetFilePath.getInstance().returnAbsoluteFilePath(this));
-                String[] params = {GetFilePath.getInstance().returnAbsoluteFilePath(this), String.valueOf(imageViewSmall.getWidth()), String.valueOf(imageViewSmall.getHeight())};
+                scaleImageFromCamInput(FileHandlingController.getInstance().returnAbsoluteFilePath(this));
+                String[] params = {FileHandlingController.getInstance().returnAbsoluteFilePath(this), String.valueOf(imageViewSmall.getWidth()), String.valueOf(imageViewSmall.getHeight())};
                 loadBitmap(params, imageViewSmall);
                 bmpLoaded = true;
             } else {
@@ -159,11 +168,11 @@ public class SelectionActivity extends Activity {
                 File directoryOnExternalDevice = new File(directory + "/picOps/");
                 directoryOnExternalDevice.mkdirs();
                 OutputStream fos = null;
-                File file = new File(directory, "/picOps/" + ReadWriteSettings.getReadWriteSettings().getStringSetting(this, "Session") + ".JPEG");
+                File file = new File(directory, "/picOps/" + SettingsController.getReadWriteSettings(this).getStringSetting("Session") + ".JPEG");
 
                 // Einsetzen der Skalierung bei zu gro�en Bitmaps
-                ImageScaler mImageScaler = new ImageScaler();
-                Bitmap bmp = mImageScaler.checkImageSizeAndScale(picturePath);
+                ImageScalingController mImageScalingController = new ImageScalingController();
+                Bitmap bmp = mImageScalingController.checkImageSizeAndScale(picturePath);
 
                 try {
                     fos = new FileOutputStream(file);
@@ -190,7 +199,7 @@ public class SelectionActivity extends Activity {
 
                 // ImagePreview anlegen und f�llen
                 imageViewSmall = (ImageView) findViewById(R.id.smallImagePreview);
-                String[] params = {GetFilePath.getInstance().returnAbsoluteFilePath(this), String.valueOf(imageViewSmall.getWidth()), String.valueOf(imageViewSmall.getHeight())};
+                String[] params = {FileHandlingController.getInstance().returnAbsoluteFilePath(this), String.valueOf(imageViewSmall.getWidth()), String.valueOf(imageViewSmall.getHeight())};
                 loadBitmap(params, imageViewSmall);
             }
         }
@@ -231,8 +240,8 @@ public class SelectionActivity extends Activity {
     }
 
     private static void scaleImageFromCamInput(String filepath) {
-        ImageScaler mImageScaler = new ImageScaler();
-        Bitmap localBitmap = mImageScaler.checkImageSizeAndScale(filepath);
+        ImageScalingController mImageScalingController = new ImageScalingController();
+        Bitmap localBitmap = mImageScalingController.checkImageSizeAndScale(filepath);
         File file = new File(filepath);
         file.delete();
         file = new File(filepath);

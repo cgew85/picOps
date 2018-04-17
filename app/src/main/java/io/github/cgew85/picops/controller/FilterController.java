@@ -1,6 +1,6 @@
 /*
  * Number of total filters/effects:
- * 
+ *
  * 		public static Bitmap bildSpiegelungVertikal(Bitmap bitmapIn)
  * 		public static Bitmap bildSpiegelung(Bitmap bitmapIn, int type)
  * 		public static Bitmap rundeEcken(Bitmap bitmapIn, float round)
@@ -26,19 +26,28 @@
  * 		public static Bitmap addBorder(Bitmap bitmapIn, double value)
  * 		-------------------------------------
  * 		23 filters/effects @ 18.9.2013
- * 
+ *
  */
 package io.github.cgew85.picops.controller;
 
-import android.graphics.*;
+import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Shader.TileMode;
 import android.util.Log;
-import io.github.cgew85.picops.model.Faltungsmaske;
-import io.github.cgew85.picops.model.PascalschesDreieck;
 
 import java.util.ArrayList;
+
+import io.github.cgew85.picops.model.Faltungsmaske;
+import io.github.cgew85.picops.model.PascalschesDreieck;
 
 public class FilterController {
 
@@ -438,9 +447,7 @@ public class FilterController {
                     newColors[x] = Color.argb(0xFF, (int) (r / hits), (int) (g / hits), (int) (b / hits));
                 }
             }
-            for (int x = 0; x < width; x++) {
-                pixels[index + x] = newColors[x];
-            }
+            System.arraycopy(newColors, 0, pixels, index + 0, width);
             index += width;
         }
     }
@@ -915,11 +922,11 @@ public class FilterController {
     public static Bitmap doGreyscale(Bitmap bitmapIn) {
         Bitmap bitmapOut = Bitmap.createBitmap(bitmapIn.getWidth(), bitmapIn.getHeight(), bitmapIn.getConfig());
 
-		/* Konstante Faktoren zur Berechnung der Graustufen
+        /* Konstante Faktoren zur Berechnung der Graustufen
          *
-		 * 30% Rot, 59% Gr�n, 11% Blau
-		 * 
-		 */
+         * 30% Rot, 59% Gr�n, 11% Blau
+         *
+         */
         final double konstFaktorRot = 0.299;
         final double konstFaktorGruen = 0.587;
         final double konstFaktorBlau = 0.114;

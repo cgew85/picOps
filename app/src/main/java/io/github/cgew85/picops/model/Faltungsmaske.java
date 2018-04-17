@@ -49,9 +49,7 @@ public class Faltungsmaske {
      */
     public void applyFaltungskonfiguration(double[][] config) {
         for (int x = 0; x < SIZE; ++x) {
-            for (int y = 0; y < SIZE; ++y) {
-                mask[x][y] = config[x][y];
-            }
+            System.arraycopy(config[x], 0, mask[x], 0, SIZE);
         }
     }
 
@@ -62,9 +60,7 @@ public class Faltungsmaske {
      */
     public void applyFaltungskonfigurationBig(double[][] config) {
         for (int x = 0; x < SIZEBIG; ++x) {
-            for (int y = 0; y < SIZEBIG; ++y) {
-                mask[x][y] = config[x][y];
-            }
+            System.arraycopy(config[x], 0, mask[x], 0, SIZEBIG);
         }
     }
 
@@ -76,9 +72,7 @@ public class Faltungsmaske {
      */
     public void applyFaltungskonfigurationBig(double[][] config, int size) {
         for (int x = 0; x < size; ++x) {
-            for (int y = 0; y < size; ++y) {
-                mask[x][y] = config[x][y];
-            }
+            System.arraycopy(config[x], 0, mask[x], 0, size);
         }
     }
 

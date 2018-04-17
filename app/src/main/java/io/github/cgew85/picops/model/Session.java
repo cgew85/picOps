@@ -22,9 +22,7 @@ public class Session {
         int min = 100000;
         int max = 999999;
 
-        int randNumber = random.nextInt(max - min + 1) + min;
-
-        return randNumber;
+        return random.nextInt(max - min + 1) + min;
     }
 
     public int getSessionID() {

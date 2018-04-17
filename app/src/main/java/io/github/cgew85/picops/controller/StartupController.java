@@ -4,7 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 
-public class CleanStartUp {
+public class StartupController {
 
     private static final String DIRECTORY_PIC_OPS = "/picOps/";
     private static final String NO_MEDIA = ".nomedia";

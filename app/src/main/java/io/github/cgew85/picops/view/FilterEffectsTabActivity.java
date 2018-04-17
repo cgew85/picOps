@@ -14,7 +14,6 @@ import io.github.cgew85.picops.R;
 public class FilterEffectsTabActivity extends TabActivity {
     private static final String FILTER_SPEC = "filter";
     private static final String EFFECTS_SPEC = "effects";
-    private int fragmentWidth, fragmentHeight;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,8 +26,8 @@ public class FilterEffectsTabActivity extends TabActivity {
         setContentView(R.layout.filtereffectstabhost);
 
         /** Daten aus aufrufendem Intent zwischenspeichern **/
-        fragmentWidth = getIntent().getIntExtra("fragmentWidth", 0);
-        fragmentHeight = getIntent().getIntExtra("fragmentHeight", 0);
+        int fragmentWidth = getIntent().getIntExtra("fragmentWidth", 0);
+        int fragmentHeight = getIntent().getIntExtra("fragmentHeight", 0);
         Log.d("INFO", "Daten aus Intent in TabHost");
         Log.d("INFO", "fragmentWidth: " + fragmentWidth);
         Log.d("INFO", "fragmentHeight: " + fragmentHeight);

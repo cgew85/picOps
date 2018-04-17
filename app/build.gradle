@@ -11,6 +11,11 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -22,7 +27,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'io.github.sporklibrary:spork:3.2.0'
-    compile 'io.github.sporklibrary:spork-android:3.0.0@aar'
     compile 'com.android.support:appcompat-v7:23.+'
+    compile 'com.bytewelder.spork:spork-inject:4.0.0'
+    compile 'com.bytewelder.spork:spork-android:4.0.0@aar'
 }

@@ -7,24 +7,31 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.HapticFeedbackConstants;
 import android.widget.Button;
-import io.github.cgew85.picops.R;
-import io.github.cgew85.picops.controller.CleanStartUp;
-import io.github.cgew85.picops.controller.ReadWriteSettings;
-import io.github.cgew85.picops.controller.StorageDetails;
-import io.github.cgew85.picops.model.Session;
-import io.github.sporklibrary.Spork;
-import io.github.sporklibrary.android.annotations.BindClick;
-import io.github.sporklibrary.android.annotations.BindLayout;
-import io.github.sporklibrary.android.annotations.BindView;
 
 import java.io.File;
 import java.io.IOException;
+
+import javax.inject.Inject;
+
+import io.github.cgew85.picops.R;
+import io.github.cgew85.picops.controller.SettingsController;
+import io.github.cgew85.picops.controller.StartupController;
+import io.github.cgew85.picops.controller.StorageDetailsController;
+import io.github.cgew85.picops.model.Session;
+import spork.Spork;
+import spork.android.BindClick;
+import spork.android.BindLayout;
+import spork.android.BindView;
+import spork.inject.Lazy;
 
 @BindLayout(R.layout.activity_main)
 public class MainActivity extends Activity {
 
     @BindView(R.id.buttonLoad)
     private Button buttonStart;
+
+    @Inject
+    private Lazy<StartupController> startupController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,37 +47,37 @@ public class MainActivity extends Activity {
         Session session = Session.getSession();
 
         // Create SharedPreferences object
-        ReadWriteSettings settings = ReadWriteSettings.getReadWriteSettings();
+        SettingsController settings = SettingsController.getReadWriteSettings(this);
 
         // Save session in shared preferences
         // Settings for session are completely erased and rewritten
-        if (settings.checkIfSettingAlreadyExists(this, "Session")) {
+        if (settings.checkIfSettingAlreadyExists("Session")) {
             Log.d("INFO", "Session SP exists");
         }
-        settings.changeSetting(this, "Session", String.valueOf(session.getSessionID()));
+        settings.changeSetting("Session", String.valueOf(session.getSessionID()));
         Log.d("INFO", "Session: " + String.valueOf(session.getSessionID()));
-        Log.d("INFO", "Session(SP): +" + settings.getStringSetting(this, "Session"));
+        Log.d("INFO", "Session(SP): +" + settings.getStringSetting("Session"));
 
         // Check for first run
-        boolean check = settings.checkIfSettingAlreadyExists(this, "First Run");
+        boolean check = settings.checkIfSettingAlreadyExists("First Run");
         if (!check) {
             //TODO: Take care of first run
             //TODO: check for picOps folder
             // In case of first run act accordingly
-            settings.addSetting(this, "First Run", true);
+            settings.addSetting("First Run", true);
         }
 
         // Check for appropriate save destination
-        StorageDetails storageDetails = new StorageDetails();
-        String storageChoice = storageDetails.intOrExtStorage();
+        StorageDetailsController storageDetailsController = new StorageDetailsController();
+        String storageChoice = storageDetailsController.intOrExtStorage();
         Log.d("INFO", "Selection of save destination: " + storageChoice);
 
         // Create settings
-        if (storageChoice.equals(StorageDetails.INTERNAL_STORAGE)) {
-            settings.addSetting(this, "Speicherort", "int");
+        if (storageChoice.equals(StorageDetailsController.INTERNAL_STORAGE)) {
+            settings.addSetting("Speicherort", "int");
             startInternalStorageSetup();
-        } else if (storageChoice.equals(StorageDetails.EXTERNAL_STORAGE)) {
-            settings.addSetting(this, "Speicherort", "ext");
+        } else if (storageChoice.equals(StorageDetailsController.EXTERNAL_STORAGE)) {
+            settings.addSetting("Speicherort", "ext");
             startExternalStorageSetup();
         }
     }
@@ -106,8 +113,7 @@ public class MainActivity extends Activity {
                 String directory = Environment.getExternalStorageDirectory() + "/picOps/";
                 File file = new File(directory);
                 if (file.exists() && file.isDirectory()) {
-                    CleanStartUp cleanDirectory = new CleanStartUp();
-                    cleanDirectory.cleanUpOnStart();
+                    startupController.get().cleanUpOnStart();
                     File nomedia = new File(directory, ".nomedia");
                     if (nomedia.isFile() && nomedia.exists()) {
                         Log.d("INFO", ".nomedia file is present");
@@ -140,10 +146,9 @@ public class MainActivity extends Activity {
         buttonStart.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
 
         Intent intent = new Intent(button.getContext(), SelectionActivity.class);
-        ReadWriteSettings readWriteSettings = ReadWriteSettings.getReadWriteSettings();
-
         // Write first run setting
-        readWriteSettings.addSetting(button.getContext(), "First Run", false);
+        SettingsController.getReadWriteSettings(this)
+                .addSetting("First Run", false);
 
         button.getContext().startActivity(intent);
     }

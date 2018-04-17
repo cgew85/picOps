@@ -8,7 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class ImageScaler {
+public class ImageScalingController {
 
     /**
      * Check image size and scale if size exceeds limit.

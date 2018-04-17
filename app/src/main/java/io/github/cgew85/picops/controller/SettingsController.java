@@ -6,21 +6,26 @@ import android.content.SharedPreferences;
 /**
  * Create and edit application settings
  */
-public class ReadWriteSettings {
+public class SettingsController {
     private static final String SETTINGS = "LocalSettingsFile";
     private static SharedPreferences settings;
     private SharedPreferences.Editor editor;
-    private static ReadWriteSettings readWriteSettings = null;
+    private static SettingsController settingsController = null;
+    private Context context;
 
-    public static synchronized ReadWriteSettings getReadWriteSettings() {
-        if (readWriteSettings == null) {
-            readWriteSettings = new ReadWriteSettings();
+    public static SettingsController getReadWriteSettings(Context context) {
+        if (settingsController == null) {
+            settingsController = new SettingsController(context);
         }
 
-        return readWriteSettings;
+        return settingsController;
     }
 
-    public boolean addSetting(Context context, String key, String value) {
+    private SettingsController(Context context) {
+        this.context = context;
+    }
+
+    public boolean addSetting(String key, String value) {
         boolean status = false;
 
         settings = context.getSharedPreferences(SETTINGS, 0);
@@ -33,7 +38,7 @@ public class ReadWriteSettings {
         return status;
     }
 
-    public boolean addSetting(Context context, String key, boolean value) {
+    public boolean addSetting(String key, boolean value) {
         boolean status = false;
 
         settings = context.getSharedPreferences(SETTINGS, 0);
@@ -46,7 +51,7 @@ public class ReadWriteSettings {
         return status;
     }
 
-    public String getStringSetting(Context context, String key) {
+    public String getStringSetting(String key) {
         String retValue;
 
         settings = context.getSharedPreferences(SETTINGS, 0);
@@ -55,7 +60,7 @@ public class ReadWriteSettings {
         return retValue;
     }
 
-    public boolean checkIfSettingAlreadyExists(Context context, String key) {
+    public boolean checkIfSettingAlreadyExists(String key) {
         boolean rueckgabe;
 
         settings = context.getSharedPreferences(SETTINGS, 0);
@@ -68,11 +73,10 @@ public class ReadWriteSettings {
      * Change setting safely, removing it first and putting it back in
      * with a new value. Needed for session creation.
      *
-     * @param context the context
-     * @param key     the key
-     * @param value   the value
+     * @param key   the key
+     * @param value the value
      */
-    public void changeSetting(Context context, String key, String value) {
+    public void changeSetting(String key, String value) {
         settings = context.getSharedPreferences(SETTINGS, 0);
         if (settings.contains(key)) {
             editor = settings.edit();
@@ -84,7 +88,7 @@ public class ReadWriteSettings {
             editor.putString(key, value);
             editor.apply();
         } else {
-            addSetting(context, key, value);
+            addSetting(key, value);
         }
     }
 
